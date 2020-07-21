@@ -15,5 +15,5 @@ src\components\segmentfault.vue
 
 ### Запуск
 ```sh
-npm start
+ npm run serve
 ```
