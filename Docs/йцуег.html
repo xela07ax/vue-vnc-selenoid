@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<article class="article fmt article-content" data-id="1190000020696306" data-license="">
+
+    <blockquote><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Установить novnc</font></font></blockquote>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">добавление пряжи @ novnc / novnc </font></font><br><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">npm i @ novnc / novnc</font></font></p>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Для конкретного использования, пожалуйста, обратитесь к официальному документу </font></font><br><a href="https://github.com/novnc/noVNC/blob/master/docs/API.md" rel="nofollow noreferrer" target="_blank"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">https: //github.com/novnc/noVN ...</font></font></a></p>
+    <blockquote><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Используйте в Vue</font></font></blockquote>
+    <ul><li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">шаблон</font></font></li></ul>
+    <pre class="hljs xml"><code><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"screen"</span>&gt;</span><font></font>
+    //虚拟化桌面将已canvas的形式被渲染到这里<font></font>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+    <ul><li><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">скрипт</font></font></li></ul>
+    <pre class="hljs kotlin"><code><span class="hljs-keyword">import</span> RFB from <span class="hljs-string">'@novnc/novnc/core/rfb'</span>;<font></font>
+export <span class="hljs-keyword">default</span> {<font></font>
+    name: <span class="hljs-string">'novnc'</span>,
+    <span class="hljs-keyword">data</span> () {<font></font>
+        rfb:<span class="hljs-literal">null</span>,<font></font>
+        url: undefined, <span class="hljs-comment">//链接的url</span>
+        IsClean: <span class="hljs-literal">false</span>, <span class="hljs-comment">//是否已断开并不可重新连接</span>
+        connectNum:<span class="hljs-number">0</span> <span class="hljs-comment">//重连次数</span><font></font>
+    },<font></font>
+    methods: {<font></font>
+        <span class="hljs-comment">// vnc连接断开的回调函数</span><font></font>
+        disconnectedFromServer (msg) {<font></font>
+            <span class="hljs-keyword">if</span>(msg.detail.clean){
+                <span class="hljs-comment">// 根据 断开信息的msg.detail.clean 来判断是否可以重新连接</span>
+                <span class="hljs-keyword">this</span>.contentVnc()<font></font>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">//这里做不可重新连接的一些操作</span><font></font>
+            }<font></font>
+        },<font></font>
+        <span class="hljs-comment">// 连接成功的回调函数</span><font></font>
+        connectedToServer() {<font></font>
+            console.log(<span class="hljs-string">'success'</span>)<font></font>
+        },<font></font>
+        <font></font>
+        <span class="hljs-comment">//连接vnc的函数</span><font></font>
+        <font></font>
+        connectVnc () {<font></font>
+            <span class="hljs-keyword">const</span> PASSWORD = <span class="hljs-string">''</span>;<font></font>
+            let rfb = new RFB(document.getElementById(<span class="hljs-string">'screen'</span>), <span class="hljs-keyword">this</span>.url, {
+            <span class="hljs-comment">// 向vnc 传递的一些参数，比如说虚拟机的开机密码等</span><font></font>
+                credentials: {password: password}<font></font>
+            });<font></font>
+            rfb.addEventListener(<span class="hljs-string">'connect'</span>, <span class="hljs-keyword">this</span>.connectedToServer);<font></font>
+            rfb.addEventListener(<span class="hljs-string">'disconnect'</span>, <span class="hljs-keyword">this</span>.disconnectedFromServer);<font></font>
+            rfb.scaleViewport = <span class="hljs-literal">true</span>;  <span class="hljs-comment">//scaleViewport指示是否应在本地扩展远程会话以使其适合其容器。禁用时，如果远程会话小于其容器，则它将居中，或者根据clipViewport它是否更大来处理。默认情况下禁用。</span>
+            rfb.resizeSession = <span class="hljs-literal">true</span>; <span class="hljs-comment">//是一个boolean指示是否每当容器改变尺寸应被发送到调整远程会话的请求。默认情况下禁用</span>
+            <span class="hljs-keyword">this</span>.rfb = rfb;<font></font>
+            <font></font>
+        }<font></font>
+        <font></font>
+    },<font></font>
+    在mounted周期里面连接vnc<font></font>
+    mounted () {<font></font>
+    <span class="hljs-comment">//这时已经可以获取到dom元素</span>
+        <span class="hljs-keyword">this</span>.connectVnc()<font></font>
+    }<font></font>
+    <font></font>
+}<font></font>
+</code></pre>
+
+</article>
+</body>
+</html>

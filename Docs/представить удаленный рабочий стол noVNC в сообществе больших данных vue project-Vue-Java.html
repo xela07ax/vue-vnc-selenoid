@@ -1,0 +1,982 @@
+﻿<!DOCTYPE HTML>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>vue项目中引入noVNC远程桌面的方法 - Vue - Java大数据社区</title>
+<meta name="keywords"  content="项目中引入noVNC,VUE项目,远程桌面,Vue,方法,项目" />
+<meta name="description" content="这篇Vue栏目下的“vue项目中引入noVNC远程桌面的方法”，介绍的技术点是“项目中引入noVNC、VUE项目、远程桌面、Vue、项目、方法”，希望对大家开发技术学习和问题解决有帮助。" />
+<meta name="applicable-device" content="pc">     
+<meta name="mobile-agent" content="format=html5;url=http://m.uxys.com/Vue/20200305/24493.html">
+<link rel="alternate" media="only screen and(max-width: 640px)" href="http://m.uxys.com/Vue/20200305/24493.html">
+<link  href="http://www.uxys.com/r/cms/www/favicon.ico" rel="icon" type="image/x-icon" /> 
+
+<script src="/r/cms/jquery.js" type="text/javascript"></script>
+<script src="/r/cms/jqueryUI/jquery-ui.js" type="text/javascript"></script>
+<script src="/r/cms/front.js" type="text/javascript"></script>
+
+<link type="text/css" rel="stylesheet" href="/r/cms/www/default/css/index.css" />
+<link href="/r/cms/jqueryUI/jquery.ui.css" rel="stylesheet" type="text/css"/>
+<!--引入加载相关文章的js--->
+<script type="text/javascript" src="/r/cms/www/default/js/loadAboutTags.js" charset="GBK" />
+
+
+<!--[if lt IE 9]> 
+<script src="/r/cms/www/default/js/html5shiv.min.js"></script>
+<script src="/r/cms/www/default/js/respond.min.js"></script>
+<![endif]-->
+
+<script type="text/javascript">
+$(function() {
+Cms.checkPerm("","24493");
+Cms.collectCsi("","collectCsiDiv","collect_csi","24493");
+Cms.attachment("","24493","0","attach");
+Cms.viewCount("","24493");
+Cms.siteFlow("", location.href, document.referrer,"true");
+});
+</script>
+
+<script type="text/javascript"> 
+jQuery(document).ready(function($){ 
+$('.content-comment').click(function(){
+	$('html,body').animate({scrollTop:$('#comments-text').offset().top}, 1000)
+	$('#comments-text').focus();
+	});  
+});
+
+$(function(){
+	//设置一个定时器，为BUTTON点击事件用
+	var timer=null;
+	var number1=0;
+
+	//文本输入时改变
+	$('#comments-text').keyup(function(){
+		if(!$(this).val()==''){
+			$('.submit-on').attr("class", "submit-out");
+		}else{
+			$(".submit-out").attr("class", "submit-on");
+		}
+	});
+	
+	//处理输入的内容是文字还是字母的函数
+	function getLength(str){
+		return String(str).replace(/[^\x00-\xff]/g,'aa').length;
+	};
+     
+});
+</script>
+
+
+<!-- 代码高亮 -->
+<link rel="stylesheet" type="text/css" href="/r/cms/highlight/styles/tomorrow-night-eighties.css"/>
+<script type="text/javascript" src="/r/cms/highlight/highlight.pack.js"></script>
+
+<!-- 图片放大 -->
+<link rel="stylesheet" type="text/css" href="/r/cms/plugins/imgZoom/zoomify.min.css"/>
+<script type="text/javascript" src="/r/cms/plugins/imgZoom/zoomify.min.js"></script>
+
+<head>
+<body>
+<section class="top">
+  <div class="yellow"></div><div class="red"></div><div class="blue"></div><div class="yellow"></div><div class="red"></div>	
+</section><link rel="stylesheet" type="text/css" href="/r/cms/www/default/css/login.css" />
+<link rel="stylesheet" type="text/css" href="/r/cms/www/default/icon/iconfont.css" />
+<link type="text/css" rel="stylesheet" href="/r/cms/www/default/css/nav_java.css" />
+<script type="text/javascript" src="/r/cms/www/default/js/nav_java.js"></script>
+
+
+<!-- 百度统计代码 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?2e9f13c5e8e322f15661a042f0d394cc";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<!--   head部分  -->
+<div class="header">
+  <div class="wrap clear_fix">
+    <!--左侧文字广告-->
+    <div class="headerLeft left">                  
+      <a href="http://www.uxys.com">网站首页</a>
+			     <a href="http://www.uxys.com/html/jiaocheng/" target="_blank">编程入门教程</a>
+			     
+			     <a href="http://www.uxys.com/html/Java/" target="_blank">Java</a>
+			     
+			     <a href="http://www.uxys.com/html/BigData/" target="_blank">大数据</a>
+			     
+			     <a href="http://www.uxys.com/html/Python/" target="_blank">Python</a>
+			     
+			     <a href="http://www.uxys.com/html/Web/" target="_blank">前端开发</a>
+			     
+			     <a href="http://www.uxys.com/html/Database/" target="_blank">数据库</a>
+			     
+   
+    </div>
+    <div class="right">
+      <!--登录注册-->
+      <div class="text_b left ">
+<script type="text/javascript">
+$(function() {
+	//优先执行第三方退出 在执行本地退出
+   $('#logout').click(function () {
+         location="/logout.jspx?returnUrl=/";
+  });
+});
+</script>
+
+      <div class="login"><a class="tc" href="/login.jspx">登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/register.jspx">注册</a></div>
+      </div>
+      
+      <div class="text_c left">
+        <ul>               
+ 
+          <li id="mHide"><i class="web-icon md left"></i><a target="_blank" href="http://m.uxys.com/">手机版</a>
+     
+          </li>
+        </ul>
+      </div>
+      
+            <!--网站导航-->
+      <div class="text_d left" id="navHide">
+          <div class="navHide-c">
+						<a href="javascript:void(0)">网站导航
+							<i id="icon" class="sprite arrowRight"></i>
+						</a>
+          </div>
+          <div id="navBox" class="webNav" style="display: none;">
+					<div class="dealList clear_fix">
+					     <div class="navTitle">
+								<h4>
+									<a href="http://www.uxys.com/html/jiaocheng/" target="_blank">编程入门教程</a>
+								</h4>
+						  </div>
+								 <dl>
+									<dd>
+				   
+										<a href="http://www.uxys.com/html/AboutJava/" target="_blank">Java/Java开发框架</a>
+									
+										<a href="http://www.uxys.com/html/AboutDataBase/" target="_blank">数据库相关教程</a>
+									
+										<a href="http://www.uxys.com/html/AboutBigData/" target="_blank">大数据相关教程</a>
+									
+										<a href="http://www.uxys.com/html/AboutHtmlCss/" target="_blank">HTML/CSS相关教程</a>
+									
+										<a href="http://www.uxys.com/html/AboutJavaScript/" target="_blank">JavaScript/前端框架</a>
+									
+										<a href="http://www.uxys.com/html/AboutTolls/" target="_blank">开发工具相关教程</a>
+									
+										<a href="http://www.uxys.com/html/AbooutBackEnd/" target="_blank">后端开发相关教程</a>
+									
+									</dd>
+								</dl>
+						 </div> 
+					<div class="dealList clear_fix">
+					     <div class="navTitle">
+								<h4>
+									<a href="http://www.uxys.com/html/Java/" target="_blank">Java</a>
+								</h4>
+						  </div>
+								 <dl>
+									<dd>
+				   
+										<a href="http://www.uxys.com/html/JavaKfjs/" target="_blank">Java开发技术</a>
+									
+										<a href="http://www.uxys.com/html/JavaMstk/" target="_blank">Java面试题库</a>
+									
+										<a href="http://www.uxys.com/html/JavaJgsj/" target="_blank">Java架构设计</a>
+									
+									</dd>
+								</dl>
+						 </div> 
+					<div class="dealList clear_fix">
+					     <div class="navTitle">
+								<h4>
+									<a href="http://www.uxys.com/html/BigData/" target="_blank">大数据</a>
+								</h4>
+						  </div>
+								 <dl>
+									<dd>
+				   
+										<a href="http://www.uxys.com/html/dsjzx/" target="_blank">大数据资讯</a>
+									
+										<a href="http://www.uxys.com/html/dsjjs/" target="_blank">大数据技术</a>
+									
+										<a href="http://www.uxys.com/html/dsjyy/" target="_blank">大数据应用</a>
+									
+									</dd>
+								</dl>
+						 </div> 
+					<div class="dealList clear_fix">
+					     <div class="navTitle">
+								<h4>
+									<a href="http://www.uxys.com/html/Python/" target="_blank">Python</a>
+								</h4>
+						  </div>
+								 <dl>
+									<dd>
+				   
+										<a href="http://www.uxys.com/html/PythonDevelopment/" target="_blank">Python开发技术</a>
+									
+									</dd>
+								</dl>
+						 </div> 
+					<div class="dealList clear_fix">
+					     <div class="navTitle">
+								<h4>
+									<a href="http://www.uxys.com/html/Web/" target="_blank">前端开发</a>
+								</h4>
+						  </div>
+								 <dl>
+									<dd>
+				   
+										<a href="http://www.uxys.com/html/HTML/" target="_blank">HTML</a>
+									
+										<a href="http://www.uxys.com/html/HTML5/" target="_blank">HTML5</a>
+									
+										<a href="http://www.uxys.com/html/CSS/" target="_blank">CSS</a>
+									
+										<a href="http://www.uxys.com/html/JavaScript/" target="_blank">JavaScript</a>
+									
+										<a href="http://www.uxys.com/html/jQuery/" target="_blank">jQuery</a>
+									
+										<a href="http://www.uxys.com/html/Vue/" target="_blank">Vue</a>
+									
+										<a href="http://www.uxys.com/html/AngularJS/" target="_blank">AngularJS</a>
+									
+									</dd>
+								</dl>
+						 </div> 
+					<div class="dealList clear_fix">
+					     <div class="navTitle">
+								<h4>
+									<a href="http://www.uxys.com/html/Database/" target="_blank">数据库</a>
+								</h4>
+						  </div>
+								 <dl>
+									<dd>
+				   
+										<a href="http://www.uxys.com/html/MySQL/" target="_blank">MySQL</a>
+									
+										<a href="http://www.uxys.com/html/Oracle/" target="_blank">Oracle</a>
+									
+										<a href="http://www.uxys.com/html/SQLServer/" target="_blank">SQLServer</a>
+									
+										<a href="http://www.uxys.com/html/MongoDB/" target="_blank">MongoDB</a>
+									
+										<a href="http://www.uxys.com/html/Redis/" target="_blank">Redis</a>
+									
+									</dd>
+								</dl>
+						 </div> 
+						
+             </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="logo-search">
+	<div class="wrap clear_fix">
+	    <div class="header-jf"><a class="jf-btn" name="gb2big5" id="gb2big5">繁</a></div>
+  <Script Language=Javascript Src="/r/cms/gb2big5.js"></Script>
+  <div class="header-rss"><a class="rss-btn" href="/rss.jspx" target="_blank" title="RSS订阅">RSS</a></div>
+  <div class="header-tag"><a class="tag-btn" href="/tag.jspx" target="_blank" title="Tags标签">Tags</a></div>
+
+		<!--logo-->
+		<div class="star-logo left">
+		  <a href="/" class="logo"></a>
+		</div>
+		<!--搜索框-->
+		<div class="star-search left">
+		  <form action="/search.jspx" class="clear_fix" target="_blank" name="searchForm" id="searchForm">
+			<label class="web-icon left"></label>
+			<input class="left" type="text" name="q" value="" placeholder=" 输入您感兴趣的技术，开发遇到的问题...">
+			<button onclick="query()">搜索</button>
+		  </form>
+		</div>
+		<!--项目-->
+		<div class="stat-logo-rignt right">
+		  <ul>
+			<li>
+			  <a href="javascript:void(0)" target="_blank">
+				<i class="zxxm-icon web-icon"></i>
+				<p>源码下载</p>
+			  </a>
+			</li>
+			<li>
+			  <a href="javascript:void(0);" target="_blank">
+				<i class="zshz-icon web-icon"></i>
+				<p>广告合作</p>
+			  </a>
+			</li>
+			<li>
+			  <a href="javascript:void(0);" target="_blank">
+				<i class="viptq-icon web-icon"></i>
+				<p>VIP特权</p>
+			  </a>
+			</li>
+		  </ul>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="star-nav-bg">
+    <div class="wrap">
+      <div class="star-nav">
+			<div class="star-nav-d">
+			  <a href="http://www.uxys.com/">首页</a>
+			</div>  
+					     <div class="star-nav-d">
+					  <a href="http://www.uxys.com/html/jiaocheng/" >编程入门教程</a><!--em class="web-icon nav-hot-icon"></em--><i class="web-icon nav-drop"></i>
+ 				      <div class="item-drop">
+                          <ul> 
+           
+						        <li><a href="http://www.uxys.com/html/AboutJava/" target="_blank">Java/Java开发框架</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/AboutDataBase/" target="_blank">数据库相关教程</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/AboutBigData/" target="_blank">大数据相关教程</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/AboutHtmlCss/" target="_blank">HTML/CSS相关教程</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/AboutJavaScript/" target="_blank">JavaScript/前端框架</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/AboutTolls/" target="_blank">开发工具相关教程</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/AbooutBackEnd/" target="_blank">后端开发相关教程</a></li>
+							
+				         </ul>
+                     </div>
+				 </div> 
+			     <div class="star-nav-d">
+					  <a href="http://www.uxys.com/html/Java/" >Java</a><!--em class="web-icon nav-hot-icon"></em--><i class="web-icon nav-drop"></i>
+ 				      <div class="item-drop">
+                          <ul> 
+           
+						        <li><a href="http://www.uxys.com/html/JavaKfjs/" target="_blank">Java开发技术</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/JavaMstk/" target="_blank">Java面试题库</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/JavaJgsj/" target="_blank">Java架构设计</a></li>
+							
+				         </ul>
+                     </div>
+				 </div> 
+			     <div class="star-nav-d">
+					  <a href="http://www.uxys.com/html/BigData/" >大数据</a><!--em class="web-icon nav-hot-icon"></em--><i class="web-icon nav-drop"></i>
+ 				      <div class="item-drop">
+                          <ul> 
+           
+						        <li><a href="http://www.uxys.com/html/dsjzx/" target="_blank">大数据资讯</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/dsjjs/" target="_blank">大数据技术</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/dsjyy/" target="_blank">大数据应用</a></li>
+							
+				         </ul>
+                     </div>
+				 </div> 
+			     <div class="star-nav-d">
+					  <a href="http://www.uxys.com/html/Python/" >Python</a><!--em class="web-icon nav-hot-icon"></em--><i class="web-icon nav-drop"></i>
+ 				      <div class="item-drop">
+                          <ul> 
+           
+						        <li><a href="http://www.uxys.com/html/PythonDevelopment/" target="_blank">Python开发技术</a></li>
+							
+				         </ul>
+                     </div>
+				 </div> 
+			     <div class="star-nav-d">
+					  <a href="http://www.uxys.com/html/Web/" >前端开发</a><!--em class="web-icon nav-hot-icon"></em--><i class="web-icon nav-drop"></i>
+ 				      <div class="item-drop">
+                          <ul> 
+           
+						        <li><a href="http://www.uxys.com/html/HTML/" target="_blank">HTML</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/HTML5/" target="_blank">HTML5</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/CSS/" target="_blank">CSS</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/JavaScript/" target="_blank">JavaScript</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/jQuery/" target="_blank">jQuery</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/Vue/" target="_blank">Vue</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/AngularJS/" target="_blank">AngularJS</a></li>
+							
+				         </ul>
+                     </div>
+				 </div> 
+			     <div class="star-nav-d">
+					  <a href="http://www.uxys.com/html/Database/" >数据库</a><!--em class="web-icon nav-hot-icon"></em--><i class="web-icon nav-drop"></i>
+ 				      <div class="item-drop">
+                          <ul> 
+           
+						        <li><a href="http://www.uxys.com/html/MySQL/" target="_blank">MySQL</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/Oracle/" target="_blank">Oracle</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/SQLServer/" target="_blank">SQLServer</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/MongoDB/" target="_blank">MongoDB</a></li>
+							
+						        <li><a href="http://www.uxys.com/html/Redis/" target="_blank">Redis</a></li>
+							
+				         </ul>
+                     </div>
+				 </div> 
+                
+        
+      </div>
+    </div>
+
+</div>
+
+
+	<div class="sublist">
+        <p>
+			     
+						     <a href="http://www.uxys.com/html/AboutJava/" target="_blank">Java/Java开发框架</a>
+							
+						     <a href="http://www.uxys.com/html/AboutDataBase/" target="_blank">数据库相关教程</a>
+							
+						     <a href="http://www.uxys.com/html/AboutBigData/" target="_blank">大数据相关教程</a>
+							
+						     <a href="http://www.uxys.com/html/AboutHtmlCss/" target="_blank">HTML/CSS相关教程</a>
+							
+						     <a href="http://www.uxys.com/html/AboutJavaScript/" target="_blank">JavaScript/前端框架</a>
+							
+						     <a href="http://www.uxys.com/html/AboutTolls/" target="_blank">开发工具相关教程</a>
+							
+						     <a href="http://www.uxys.com/html/AbooutBackEnd/" target="_blank">后端开发相关教程</a>
+							
+			     
+						     <a href="http://www.uxys.com/html/JavaKfjs/" target="_blank">Java开发技术</a>
+							
+						     <a href="http://www.uxys.com/html/JavaMstk/" target="_blank">Java面试题库</a>
+							
+						     <a href="http://www.uxys.com/html/JavaJgsj/" target="_blank">Java架构设计</a>
+							
+			     
+						     <a href="http://www.uxys.com/html/dsjzx/" target="_blank">大数据资讯</a>
+							
+						     <a href="http://www.uxys.com/html/dsjjs/" target="_blank">大数据技术</a>
+							
+						     <a href="http://www.uxys.com/html/dsjyy/" target="_blank">大数据应用</a>
+							
+			     
+						     <a href="http://www.uxys.com/html/PythonDevelopment/" target="_blank">Python开发技术</a>
+							
+			     
+						     <a href="http://www.uxys.com/html/HTML/" target="_blank">HTML</a>
+							
+						     <a href="http://www.uxys.com/html/HTML5/" target="_blank">HTML5</a>
+							
+						     <a href="http://www.uxys.com/html/CSS/" target="_blank">CSS</a>
+							
+						     <a href="http://www.uxys.com/html/JavaScript/" target="_blank">JavaScript</a>
+							
+						     <a href="http://www.uxys.com/html/jQuery/" target="_blank">jQuery</a>
+							
+						     <a href="http://www.uxys.com/html/Vue/" target="_blank">Vue</a>
+							
+						     <a href="http://www.uxys.com/html/AngularJS/" target="_blank">AngularJS</a>
+							
+			     
+						     <a href="http://www.uxys.com/html/MySQL/" target="_blank">MySQL</a>
+							
+						     <a href="http://www.uxys.com/html/Oracle/" target="_blank">Oracle</a>
+							
+						     <a href="http://www.uxys.com/html/SQLServer/" target="_blank">SQLServer</a>
+							
+						     <a href="http://www.uxys.com/html/MongoDB/" target="_blank">MongoDB</a>
+							
+						     <a href="http://www.uxys.com/html/Redis/" target="_blank">Redis</a>
+							
+		
+		</p>
+   </div>
+
+<script type="text/javascript">
+		$(function(){
+		});
+</script><div class="main container clearfix">
+  <section class="content_w850">
+    <div class="content-channelMenu">
+	    <a href="/" class="black Semilight">首页</a> > <a target="_blank" href="http://www.uxys.com/html/Web/" class="black Semilight">前端开发</a>
+					 >
+                <a target="_blank" href="http://www.uxys.com/html/Vue/" class="black Semilight">Vue</a>
+					 > <span class="gray Semilight">正文</span>
+	</div>
+    <h1>vue项目中引入noVNC远程桌面的方法</h1>
+    <div class="content-inf">发布时间：2020-03-05 09:19:15&nbsp;&nbsp;作者：本站编辑&nbsp;&nbsp;来源：本站原创&nbsp;&nbsp;浏览次数：<span id="views"></span>
+    <div class="content-action">
+		    <a class="content-comment">我有话说</a>
+	   
+	     &nbsp;&nbsp;<a class="content-collect" id="collectCsiDiv"></a>
+	    </div>
+    </div>
+    <div class="content-txt">
+	    <p class="summary">
+		    <strong>摘要：</strong>这篇Vue栏目下的“vue项目中引入noVNC远程桌面的方法”，介绍的技术点是“项目中引入noVNC、VUE项目、远程桌面、Vue、项目、方法”，希望对大家开发技术学习和问题解决有帮助。
+		</p>
+            
+             
+						<p><span style="background-color: #ccffcc"><strong>1 、首先，先简单介绍一下概念。</strong></span></p>
+<p>VNCServer 是一个为了满足分布式用户共享服务器资源，而在服务器开启的一项服务，对应的客户端软件有图形化客户端 VNCViewer，而 noVNC 则是 HTML5 VNC 客户端，它采用 HTML 5 WebSocket, Canvas 和 JavaScript 实现。</p>
+<p>noVNC 被普遍用在各大云计算、虚拟机控制面板中。noVNC 采用 WebSockets 实现，但是当前大多 VNC 服务器不支持 WebSocket，所以 noVNC 不能直连 VNC 服务器，而是需要开启一个代理来做 WebSockets 和 TCP sockets 之间的转换。这个代理叫做 websockify。</p>
+<p><span style="background-color: #ccffcc"><strong>2 、项目中有这样一个需求，系统中有多个功能页，但是功能还包括原有的在物理终端设备上的功能</strong></span>（包括后来在电脑的虚拟终端客户端），这就用到了noVNC。好处是可以将其他功能系统（或称之为页面）嵌入新的项目中，还可以去点击操作上面的功能等，可以暂时解决一些问题。</p>
+<p><span style="background-color: #ccffcc"><strong>3 、由于项目框架是vue，所以以下均为前端实现部分</strong></span></p>
+<p>首先是先引入noVNC的库。有两种引入方式，一是，直接下载源码到自己的项目中，此方式一些问题下面进行详细介绍；</p>
+<div >
+<pre class="brush:xhtml;">
+git clone git://github.com/novnc/noVNC </pre>
+</div>
+<p>二是，如果采用了webpack的方式，可以使用npm进行安装依赖，更方便。</p>
+<div >
+<pre class="brush:xhtml;">
+npm install @novnc/novnc </pre>
+</div>
+<p><span style="color: #ff0000"><strong>下面是详细代码部分</strong></span></p>
+<p><strong>HTML</strong></p>
+<div >
+<pre class="brush:xhtml;">
+&lt;template&gt; 
+ &lt;div class="page-home" ref="canvas"&gt; 
+ &lt;canvas id="noVNC_canvas" width="800" height="600"&gt; 
+ Canvas not supported. 
+ &lt;/canvas&gt; 
+ &lt;/div&gt; 
+&lt;/template&gt; </pre>
+</div>
+<p><strong>Script</strong></p>
+<div >
+<pre class="brush:xhtml;">
+import WebUtil from '../../noVNC/app/webutil.js' 
+ 
+import Base64 from '../../noVNC/core/base64.js' 
+import Websock from '../../noVNC/core/websock.js' 
+import '../../noVNC/core/des.js' 
+import '../../noVNC/core/input/keysymdef.js' 
+import '../../noVNC/core/input/xtscancodes.js' 
+import '../../noVNC/core/input/util.js' 
+import {Keyboard, Mouse} from '../../noVNC/core/input/devices.js' 
+import Display from '../../noVNC/core/display.js' 
+import '../../noVNC/core/inflator.js' 
+import RFB from '../../noVNC/core/rfb.js' 
+import '../../noVNC/core/input/keysym.js' </pre>
+</div>
+<p>由于采用的是第一种引入方式，所以在资源引入上用了import的方式。需要注意的是在引入某些文件时，项目是基于es6的语法，所以引入外部js的方式略有差异。例如引入webutil.js文件，需要增加export default，然后才能正确使用。在引入时可以稍微修改一下文件即可。文件中有相应的备注描述。</p>
+<p><strong>引入资源完成后接下来就是如何去使用了，其实并不复杂。话不多说，上码。</strong></p>
+<div >
+<pre class="brush:xhtml;">
+connectVNC () {
+ var
+  DEFAULT_HOST = '',
+  DEFAULT_PORT = '',
+  DEFAULT_PASSWORD = "",
+  DEFAULT_PATH = "websockify"
+ ;
+ var cRfb = null;
+ var oTarget = document.getElementById("noVNC_canvas");
+ let that = this
+ if (!this.currentEquipment) {
+  return
+ }
+ let novncPort = this.currentEquipment.novncPort
+ getNovncIp().then(function (resData) {
+  WebUtil.init_logging(WebUtil.getConfigVar("logging", "warn"));
+  var sHost = resData.data.content.ip || DEFAULT_HOST,
+  nPort = novncPort || DEFAULT_PORT,
+  sPassword = DEFAULT_PASSWORD,
+  sPath = DEFAULT_PATH
+  ;
+  cRfb = new RFB({
+  "target": oTarget,&lt;span class="space" style="white-space:pre;display:inline-block;text-indent:2em;line-height:inherit;"&gt; // 目标&lt;/span&gt;
+  "focusContainer": top.document, // 鼠标焦点定位
+  "encrypt": WebUtil.getConfigVar("encrypt", window.location.protocol === "https:"),
+  "repeaterID": WebUtil.getConfigVar("repeaterID", ""),
+  "true_color": WebUtil.getConfigVar("true_color", true),
+  "local_cursor": WebUtil.getConfigVar("cursor", true),
+  "shared": WebUtil.getConfigVar("shared", true),
+  "view_only": WebUtil.getConfigVar("view_only", false),
+  "onFBUComplete": that._onCompleteHandler, // 回调函数
+  "onDisconnected": that._disconnected // 断开连接
+  });
+  // console.log('sHost:' + sHost + '--nPort:' + nPort)
+  cRfb.connect(sHost, nPort, sPassword, sPath);
+ })
+ },</pre>
+</div>
+<p>首先是在methods生命周期中定义了一个方法，把初始化相关的操作写在里面。然后再mounted生命周期中去调用this.connectVnc()。一定要在这个生命周期内去调用，否则canvas未初始化是不能获取到dom结构的。</p>
+<p>简单描述一下就是，实例化一个对象，包括一些用到的方法或者属性，然后调用connect方法，并传入host,port,password,path参数即可建立连接。</p>
+<p>其中有两个方法，一个是链接成功后的回调_.onCompleteHandler，一个是断开连接的回调_disconnected</p>
+<div >
+<pre class="brush:xhtml;">
+// 远程桌面连接成功后的回调函数 
+ _onCompleteHandler (rfb, fbu) { 
+ // 清除 onComplete 的回调。 
+ rfb.set_onFBUComplete(function () { 
+ }); 
+ 
+ var oDisplay = rfb.get_display(), 
+  nWidth = oDisplay.get_width(), 
+  nHeight = oDisplay.get_height(), 
+ 
+  oView = oDisplay.get_target(), 
+  nViewWidth = oView.clientWidth, 
+  nViewHeight = oView.clientHeight 
+ ; 
+ 
+ // 设置当前与实际的比例。 
+ oDisplay.setScale(nWidth / nViewWidth, nHeight / nViewHeight); 
+ 
+ } </pre>
+</div>
+<p>可以在连接成功后设置一些参数信息或者屏幕尺寸等。</p>
+<p>做好以上操作之后，就可以在网页上看到一个远程桌面屏幕了哦。</p>
+<p><img alt="" src="/u/cms/www/201912/11215911prg4.jpg" /></p>
+<p>一个简单的远程桌面，是可以操作的哦。有更多其他的参数或者要求的可以参考官网<strong><a target="_blank" href="http://novnc.com/info.html">点击打开链接</a></strong>。或者联系我讨论哦</p>
+<p>以上这篇vue项目中引入noVNC远程桌面的方法就是小编分享给大家的全部内容了，希望能给大家一个参考，也希望大家多多支持Java大数据社区。</p>
+                        
+                        
+         
+    </div>
+	<div class="article-about-tag" style="padding-top:5px">
+		<p>
+		<strong>文章关键词：</strong> 
+			 
+				<span><a target="_blank" href="/tag/52850.jspx">项目中引入noVNC</a></span>
+
+				<span><a target="_blank" href="/tag/49142.jspx">VUE项目</a></span>
+
+				<span><a target="_blank" href="/tag/10403.jspx">远程桌面</a></span>
+
+				<span><a target="_blank" href="/tag/54581.jspx">Vue</a></span>
+
+				<span><a target="_blank" href="/tag/1651.jspx">方法</a></span>
+
+				<span><a target="_blank" href="/tag/1655.jspx">项目</a></span>
+			
+		</p>
+	 </div>
+
+    <!-- 分页 -->
+    <div class="pagebar"></div>
+    <!--div class="reward"><a href="/content/reward.jspx?contentId=24493"></a></div-->
+    <div class="inter clearfix"> 
+      <div class="ups"><a onclick="Cms.up('',24493,0);"><span id="ups"></span></a></div>
+      <div class="downs"><a onclick="Cms.down('',24493,0);"><span id="downs"></span></a></div>
+      <div class="score">
+<!-- 评分页面 -->
+<div>
+    <!-- 系统默认的2号分组是星级评分 -->
+  <!-- 平均评分有二级缓存，评分后不会立即显示新的平均评分 -->
+  <!-- 其他 -->
+  <ul>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,1);">
+         <p style="text-align:center;"> <span id="score-item-1">0</span>票</p>
+         <p><img src="/r/cms/smilies/m1.gif"/></p>
+         <p style="text-align:center;">开心</p>
+      </li>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,2);">
+         <p style="text-align:center;"> <span id="score-item-2">0</span>票</p>
+         <p><img src="/r/cms/smilies/m2.gif"/></p>
+         <p style="text-align:center;">板砖</p>
+      </li>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,3);">
+         <p style="text-align:center;"> <span id="score-item-3">0</span>票</p>
+         <p><img src="/r/cms/smilies/m3.gif"/></p>
+         <p style="text-align:center;">感动</p>
+      </li>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,4);">
+         <p style="text-align:center;"> <span id="score-item-4">0</span>票</p>
+         <p><img src="/r/cms/smilies/m4.gif"/></p>
+         <p style="text-align:center;">有用</p>
+      </li>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,5);">
+         <p style="text-align:center;"> <span id="score-item-5">0</span>票</p>
+         <p><img src="/r/cms/smilies/m5.gif"/></p>
+         <p style="text-align:center;">疑问</p>
+      </li>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,6);">
+         <p style="text-align:center;"> <span id="score-item-6">0</span>票</p>
+         <p><img src="/r/cms/smilies/m6.gif"/></p>
+         <p style="text-align:center;">难过</p>
+      </li>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,7);">
+         <p style="text-align:center;"> <span id="score-item-7">0</span>票</p>
+         <p><img src="/r/cms/smilies/m7.gif"/></p>
+         <p style="text-align:center;">无聊</p>
+      </li>
+      <li style="float:left;cursor: pointer;" onclick="Cms.score('',24493,8);">
+         <p style="text-align:center;"> <span id="score-item-8">0</span>票</p>
+         <p><img src="/r/cms/smilies/m8.gif"/></p>
+         <p style="text-align:center;">震惊</p>
+      </li>
+   </ul>   
+   <script type="text/javascript">
+	$(function() {
+		Cms.scoreCount("","24493");
+	});
+</script>
+</div>
+
+
+      </div>
+    </div>
+    <div class="content-link clearfix">
+      <span class="prev-content"><i></i>上一篇：<a href="http://www.uxys.com/html/Vue/20200305/24492.html" title="vue项目中使用ueditor的实例讲解">vue项目中使用ueditor的实例讲解</a></span>
+      <span class="next-content">下一篇：<a href="http://www.uxys.com/html/Vue/20200305/24494.html" title="Vue 中使用vue2-highcharts实现曲线数据展示的方法">Vue 中使用vue2-highcharts实现曲线数据...</a><i></i></span>
+    </div>
+    
+<section class="comments">
+      <h1>评论<span>已有<a class="count" href="/comment.jspx?contentId=24493">
+      0 </a>条</span>
+      </h1>
+      <form id="commentForm" action="/comment.jspx" method="post">
+      <textarea name="text" placeholder="发表你此时的观点和想法 ……" class="comments-text" id="comments-text"></textarea>
+	    <div class="plfr1 clearfix">
+	    <div style="float:left;">
+	    <input name="captcha" type="text" placeholder="验证码" id="captcha" vld="{required:true}" class="plcode"/>
+	    </div>
+	    <div style="float:left;">
+	    <img id="commentCaptcha" src="/captcha.svl" onclick="this.src='/captcha.svl?d='+new Date()*1"/>
+	    </div>
+	
+	    <div class="down clearfix">
+       <input type="hidden" name="contentId" value="24493"/>
+       <input type="hidden" name="sessionId" id="sessionId" />
+      <input type="submit" value="提交评论" class="submit-on">
+      </div>
+               </div>
+      
+       </form>
+       <script type="text/javascript">
+    $(function() {
+       $("#sessionId").val($.cookie("JSESSIONID"));
+        Cms.comment(function(data) {
+            if(data.status==0) {
+                alert("评论成功");
+                location.href=location.href;
+            } else if(data.status==1) {	
+                alert("验证码错误");
+                $("#commentCaptcha").click();
+            } else if(data.status==2) {	
+                alert("内容不存在");
+                $("#commentCaptcha").click();
+            } else if(data.status==3) {	
+                alert("评论关闭");
+                $("#commentCaptcha").click();
+            } else if(data.status==4) {	
+                alert("需要登录评论");
+                $("#commentCaptcha").click();
+            }else if(data.status==5) {	
+                alert("已经评论过，不能重复评论");
+                $("#commentCaptcha").click();
+            } else if(data.status==100) {	
+                alert("内容不存在");
+                $("#commentCaptcha").click();
+            } else if(data.status==101) {	
+                alert("评论不能为空");
+                $("#commentCaptcha").click();
+            } else if(data.status==10) {	
+                alert("内容含有敏感词,不允许发表!");
+                $("#commentCaptchaCsi").click();
+            }  else if(data.status==6) {	
+                alert("超过今日发表评论限制!");
+                $("#commentCaptchaCsi").click();
+            } else {
+                alert("评论失败");
+                $("#commentCaptcha").click();
+            }
+        });
+    });
+    </script>
+</section> 
+
+
+<div id="commentListContainer"></div>
+<script type="text/javascript">
+$(function(){
+	Cms.commentList("","commentListContainer",{contentId:24493,orderBy:0,count:5,checked:1});
+});
+</script>
+	<div class="be-about-article">
+		<p class="be-title">相关文章</p>
+			<ul id="about-articleList">
+			</ul>
+
+			<div class="loading hover" id="loadMoreButton" onclick="loadingMore()">加载更多</div>
+		</p>
+	</div>
+
+  </section>
+
+
+  
+
+
+<div id="sidebarWrap">
+	<section class="w310" id="sidebar">
+		<section class="tag clearfix">
+		  <div class="tag-nav"><h1><a>技术文章搜索</a></h1></div>
+		  <div class="tag-dict">
+			<span  class="pcolor">
+							 <a href="/search.jspx?q=Java" target="_blank">Java</a>
+				 <a href="/search.jspx?q=SpringBoot" target="_blank">SpringBoot</a>
+				 <a href="/search.jspx?q=SpringMvc" target="_blank">SpringMvc</a>
+				 <a href="/search.jspx?q=Mybatis" target="_blank">Mybatis</a>
+				 <a href="/search.jspx?q=JDBC" target="_blank">JDBC</a>
+				 <a href="/search.jspx?q=大数据" target="_blank">大数据</a>
+				 <a href="/search.jspx?q=Hadoop" target="_blank">Hadoop</a>
+				 <a href="/search.jspx?q=ElasticSearch" target="_blank">ElasticSearch</a>
+				 <a href="/search.jspx?q=Kafka" target="_blank">Kafka</a>
+				 <a href="/search.jspx?q=Vue" target="_blank">Vue</a>
+				 <a href="/search.jspx?q=CSS" target="_blank">CSS</a>
+				 <a href="/search.jspx?q=JavaScript" target="_blank">JavaScript</a>
+				 <a href="/search.jspx?q=Html" target="_blank">Html</a>
+				 <a href="/search.jspx?q=Html5" target="_blank">Html5</a>
+				 <a href="/search.jspx?q=CSS3" target="_blank">CSS3</a>
+				 <a href="/search.jspx?q=MySQL" target="_blank">MySQL</a>
+				 <a href="/search.jspx?q=Oracle" target="_blank">Oracle</a>
+				 <a href="/search.jspx?q=数据库" target="_blank">数据库</a>
+			</span>
+		  </div>
+		</section>
+		<section class="tag issue clearfix">
+		  <div class="tag-nav"><h1><a>文章推荐</a></h1></div>
+		  <div class="item clearfix" style="border-top:none;">
+			<a href="http://www.uxys.com/html/Vue/20191229/26619.html" target="_blank" class="img" title="详解Vue.js v-for不支持IE9的解决方法"><img src="/u/cms/www/201912/11223141jsbl.png"></a>
+			<h2><a href="http://www.uxys.com/html/Vue/20191229/26619.html" target="_blank" title="详解Vue.js v-for不支持IE9的解决方法">详解Vue.js v-for不支持IE9的解决方法</a></h2>
+			<div class="issue-comment">评论  (0)</div>
+		  </div>
+		  <div class="item clearfix" >
+			<a href="http://www.uxys.com/html/Vue/20191212/28665.html" target="_blank" class="img" title="Vue.js 无限滚动列表性能优化方案"><img src="/u/cms/www/201912/11230336f0u0.gif"></a>
+			<h2><a href="http://www.uxys.com/html/Vue/20191212/28665.html" target="_blank" title="Vue.js 无限滚动列表性能优化方案">Vue.js 无限滚动列表性能优化方案</a></h2>
+			<div class="issue-comment">评论  (0)</div>
+		  </div>
+		  <div class="item clearfix" >
+			<a href="http://www.uxys.com/html/Vue/20200211/24330.html" target="_blank" class="img" title="从vue基础开始创建一个简单的增删改查的实例代码(推荐)"><img src="/u/cms/www/201912/11215653c0z9.png"></a>
+			<h2><a href="http://www.uxys.com/html/Vue/20200211/24330.html" target="_blank" title="从vue基础开始创建一个简单的增删改查的实例代码(推荐)">从vue基础开始创建一个简单的增删改查的实例...</a></h2>
+			<div class="issue-comment">评论  (0)</div>
+		  </div>
+		  <div class="item clearfix" >
+			<a href="http://www.uxys.com/html/Vue/20200211/26776.html" target="_blank" class="img" title="在vue项目中引入vue-beauty操作方法"><img src="/u/cms/www/201912/112234064o1t.jpg"></a>
+			<h2><a href="http://www.uxys.com/html/Vue/20200211/26776.html" target="_blank" title="在vue项目中引入vue-beauty操作方法">在vue项目中引入vue-beauty操作方法</a></h2>
+			<div class="issue-comment">评论  (0)</div>
+		  </div>
+		  <div class="item clearfix" >
+			<a href="http://www.uxys.com/html/Vue/20200320/24663.html" target="_blank" class="img" title="使用Vue.js开发微信小程序开源框架mpvue解析"><img src="/u/cms/www/201912/112201425vsl.png"></a>
+			<h2><a href="http://www.uxys.com/html/Vue/20200320/24663.html" target="_blank" title="使用Vue.js开发微信小程序开源框架mpvue解析">使用Vue.js开发微信小程序开源框架mpvue解析</a></h2>
+			<div class="issue-comment">评论  (0)</div>
+		  </div>
+		  <div class="item clearfix" >
+			<a href="http://www.uxys.com/html/Vue/20191229/26620.html" target="_blank" class="img" title="基于vue.js组件实现分页效果"><img src="/u/cms/www/201912/11223142in8t.gif"></a>
+			<h2><a href="http://www.uxys.com/html/Vue/20191229/26620.html" target="_blank" title="基于vue.js组件实现分页效果">基于vue.js组件实现分页效果</a></h2>
+			<div class="issue-comment">评论  (0)</div>
+		  </div>
+		</section>
+  </section>
+</div></div>
+<footer class="footer">
+  <div class="footer-link container">
+    <a style="margin-left:0;" href="javascript:void();">关于我们</a><a href="javascript:void();">联系我们</a><a href="javascript:void();">诚聘英才</a><a href="javascript:void();">友情链接</a><a href="javascript:void();>程序下载</a><a href="javascript:void();">合作服务</a><a href="javascript:void();">许可协议</a><a onclick="AddFavorite(window.location,document.title)" href="javascript:void(0)">加入收藏</a><a onclick="SetHome(window.location)" href="javascript:void(0)">设为首页</a>
+  </div>
+  <div class="copyright container"><p>ICP备案号：鄂ICP备13000039号-11     Powered by uxys.com Copyright © 2019-2099 www.uxys.com, All Rights Reserved</p>
+      	<p>
+  	Java大数据社区是一个专注于Java、大数据(大数据解决方案、大数据分析、大数据的应用)、GIS、前端开发、后端开发、数据库技术、Linux技术等开发技术学习资料和程序源码分享的网站。
+  	</p> 
+  </div>
+</footer>
+<script type="text/javascript" language="javascript">
+   //加入收藏
+       function AddFavorite(sURL, sTitle) {
+           sURL =encodeURI(sURL); 
+       try{   
+          window.external.addFavorite(sURL, sTitle);   
+       }catch(e) {   
+          try{   
+              window.sidebar.addPanel(sTitle, sURL, "");   
+           }catch (e){   
+              alert("您的浏览器不支持自动加入收藏功能，请使用Ctrl+D进行添加，或手动在浏览器里进行设置！");
+          }   
+       }
+   }
+   
+   //设为首页
+   function SetHome(url){
+       if (document.all) {
+          document.body.style.behavior='url(#default#homepage)';
+             document.body.setHomePage(url);
+       }else{
+           alert("您的浏览器不支持自动设置页面为首页功能，请您手动在浏览器里设置该页面为首页！");
+       }
+   }
+</script><div class="right-fixed">
+  <ul>
+    <!--
+    <li class="app">
+      <div class="app-logo"></div>
+    </li>
+    -->
+    <li class="weixin">
+      <div class="weixin-logo"></div>
+    </li>
+    <li class="wap">
+      <div class="wap-logo"><img src="/u/cms/www/codeimg/24493.png"/></div>
+    </li>
+    <li class="back-top"></li>    
+  </ul>
+  <script type="text/javascript">
+	$(function(){
+		var $body = $(document.body);;
+		var $bottomTools = $('.right-fixed');
+			$(window).scroll(function () {
+				var scrollHeight = $(document).height();
+				var scrollTop = $(window).scrollTop();
+				scrollTop > 50 ? $(".back-top").slideDown(300).css("display","block") : $(".back-top").slideUp(300);			
+			});
+			$('.back-top').click(function (e) {
+				e.preventDefault();
+				$('html,body').animate({ scrollTop:0});
+			});
+			
+	});
+  </script>
+</div>
+
+<script type="text/javascript">
+    //代码高亮初始化代码
+	var allpre = document.getElementsByTagName("pre");
+	for(i = 0; i < allpre.length; i++) 
+	{
+		var onepre = document.getElementsByTagName("pre")[i];
+		var mycode = document.getElementsByTagName("pre")[i].innerHTML;
+		onepre.innerHTML = '<code id="mycode">'+mycode+'</code>';
+	}
+    //ul、li为了行号
+	$("pre code").each(function(){
+	   $(this).html("<ul><li>" + $(this).html().replace(/\n/g,"\n</li><li>") +"\n</li></ul>");
+	});
+	
+	hljs.initHighlightingOnLoad();    
+
+	//内容中图片放大
+	$('.content-txt img').zoomify();
+
+    loading(1,"项目中引入noVNC,VUE项目,远程桌面,Vue,方法,项目","24493");//加载相关文章方法
+	
+
+
+ 
+</script>
+
+</body>
+</html>

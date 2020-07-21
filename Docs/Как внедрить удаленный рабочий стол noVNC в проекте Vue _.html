@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<!--[if !IE]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="no-js">
+<!--<![endif]-->
+<!--[if IE 9]>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="no-js ie9">
+<![endif]-->
+<!--[if IE 8]>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" class="no-js ie8">
+<![endif]-->
+<head>
+<meta charset=UTF-8 />
+<title>  vue项目中引入noVNC远程桌面的方法 |  - 软件开发网</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://www.mscto.com/xmlrpc.php" />
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel='dns-prefetch' href='//ajax.proxy.ustclug.org' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="软件开发网 &raquo; Feed" href="https://www.mscto.com/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.mscto.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.4.2"}};
+			/*! This file is auto-generated */
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://www.mscto.com/wp-includes/css/dist/block-library/style.min.css?ver=5.4.2' type='text/css' media='all' />
+<link rel='stylesheet' id='gp-font-awesome-css'  href='https://www.mscto.com/wp-content/themes/buddy/lib/fonts/font-awesome/css/font-awesome.min.css?ver=5.4.2' type='text/css' media='all' />
+<link rel='stylesheet' id='gp-reset-css'  href='https://www.mscto.com/wp-content/themes/buddy/lib/css/reset.css?ver=5.4.2' type='text/css' media='all' />
+<link rel='stylesheet' id='gp-style-css'  href='https://www.mscto.com/wp-content/themes/buddy/style.css?ver=5.4.2' type='text/css' media='all' />
+<link rel='stylesheet' id='gp-prettyphoto-css'  href='https://www.mscto.com/wp-content/themes/buddy/lib/scripts/prettyPhoto/css/prettyPhoto.css?ver=5.4.2' type='text/css' media='all' />
+<link rel='stylesheet' id='gp-responsive-css'  href='https://www.mscto.com/wp-content/themes/buddy/responsive.css?ver=5.4.2' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.mscto.com/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
+<script type='text/javascript' src='https://www.mscto.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://www.mscto.com/wp-content/themes/buddy/lib/scripts/modernizr.js?ver=5.4.2'></script>
+<script type='text/javascript' src='https://www.mscto.com/wp-content/themes/buddy/lib/scripts/mediaplayer/jwplayer.js?ver=5.4.2'></script>
+<link rel='https://api.w.org/' href='https://www.mscto.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.mscto.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.mscto.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='WordPress免插件生成完整站点地图(sitemap.xml)的php代码' href='https://www.mscto.com/vue/37723.html' />
+<link rel='next' title='ASP中Web页面间的数据传递方式' href='https://www.mscto.com/vue/108671.html' />
+<meta name="generator" content="WordPress 5.4.2" />
+<link rel="canonical" href="https://www.mscto.com/vue/54069.html" />
+<link rel='shortlink' href='https://www.mscto.com/?p=54069' />
+<link rel="alternate" type="application/json+oembed" href="https://www.mscto.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.mscto.com%2Fvue%2F54069.html" />
+<script>jQuery(document).ready(function(){window.devicePixelRatio>=2&&jQuery(".post-thumbnail img").each(function(){jQuery(this).attr({src:jQuery(this).attr("data-rel")})})});</script><link rel="icon" href="https://www.mscto.com/wp-content/uploads/2020/01/msctoicon.png" sizes="32x32" />
+<link rel="icon" href="https://www.mscto.com/wp-content/uploads/2020/01/msctoicon.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.mscto.com/wp-content/uploads/2020/01/msctoicon.png" />
+<meta name="msapplication-TileImage" content="https://www.mscto.com/wp-content/uploads/2020/01/msctoicon.png" />
+<meta name="keywords" content="core, ue, vue, 方法, 远程桌面, " />
+<meta name="description" content="1 、首先，先简单介绍一下概念。
+VNCServer 是一个为了满足分布式用户共享服务器资源，而在服务器开启的一项服务，对应的客户端软件有图形化客户端 VNCViewer，而 noVNC 则是 HTML5 VNC 客户端，它采用 HTML 5 WebSo" />
+<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+<meta content="pc,mobile" name="applicable-device" />
+<meta content="width" name="MobileOptimized" />
+<meta content="true" name="HandheldFriendly" />
+
+</head>
+
+<body class="post-template-default single single-post postid-54069 single-format-standard sb-both">
+
+
+
+
+
+	<!-- BEGIN PAGE WRAPPER-->
+ 
+	<div id="page-wrapper">
+ 
+ 
+		<!-- BEGIN HEADER -->
+	
+		<div id="header">
+	
+	
+			<!-- BEGIN LOGO -->
+		
+			<div id="logo" style=" margin-left: 10px;">
+			
+				<span class="logo-details">软件开发网 |   vue项目中引入noVNC远程桌面的方法 | </span>
+			
+				<a href="https://www.mscto.com" title="软件开发网"><img src="https://www.mscto.com/wp-content/uploads/2020/01/mscto-5.png" width="108" height="25" alt="软件开发网" /></a>
+			
+			</div>
+		
+			<!-- END LOGO -->	
+									
+			
+			<!-- BEGIN NAV WRAPPER -->	
+			
+			<div id="nav">
+
+			
+				<!-- BEGIN NAV -->	
+			
+				
+					<ul id="menu-header" class="menu"><li id="menu-item-13" class="home menu-item menu-item-type-custom menu-item-object-custom menu-item-13"><a href="/">首页</a></li>
+<li id="menu-item-4358" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4358"><a href="/">热门</a>
+<ul class="sub-menu">
+	<li id="menu-item-4364" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4364"><a href="https://www.mscto.com/java/">JAVA</a></li>
+	<li id="menu-item-4361" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4361"><a href="https://www.mscto.com/c/">C语言</a></li>
+	<li id="menu-item-4367" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4367"><a href="https://www.mscto.com/python3/">Python3</a></li>
+	<li id="menu-item-4362" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4362"><a href="https://www.mscto.com/cpp/">C++</a></li>
+	<li id="menu-item-4359" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4359"><a href="https://www.mscto.com/javascript/">JavaScript</a></li>
+	<li id="menu-item-4363" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4363"><a href="https://www.mscto.com/go/">GO</a></li>
+	<li id="menu-item-4365" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4365"><a href="https://www.mscto.com/mysql/">Mysql</a></li>
+	<li id="menu-item-4360" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4360"><a href="https://www.mscto.com/android/">Android</a></li>
+	<li id="menu-item-4368" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4368"><a href="https://www.mscto.com/swift/">Swift</a></li>
+</ul>
+</li>
+<li id="menu-item-286" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-286"><a href="https://www.mscto.com/client/">前端</a>
+<ul class="sub-menu">
+	<li id="menu-item-330" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-330"><a href="https://www.mscto.com/html/">HTML</a></li>
+	<li id="menu-item-292" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-292"><a href="https://www.mscto.com/html5/">HTML5</a></li>
+	<li id="menu-item-290" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.mscto.com/css/">CSS</a></li>
+	<li id="menu-item-291" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-291"><a href="https://www.mscto.com/css3/">CSS3</a></li>
+	<li id="menu-item-294" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-294"><a href="https://www.mscto.com/jquery/">jQuery</a></li>
+	<li id="menu-item-293" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-293"><a href="https://www.mscto.com/javascript/">JavaScript</a></li>
+	<li id="menu-item-297" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-297"><a href="https://www.mscto.com/vue/">Vue.js</a></li>
+	<li id="menu-item-296" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-296"><a href="https://www.mscto.com/nodejs/">Node.js</a></li>
+	<li id="menu-item-295" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-295"><a href="https://www.mscto.com/json/">JSON</a></li>
+	<li id="menu-item-288" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-288"><a href="https://www.mscto.com/bootstrap3/">Bootstrap3</a></li>
+	<li id="menu-item-289" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-289"><a href="https://www.mscto.com/bootstrap4/">Bootstrap4</a></li>
+	<li id="menu-item-298" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-298"><a href="https://www.mscto.com/fontawesome/">Font Awesome</a></li>
+	<li id="menu-item-388" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-388"><a href="https://www.mscto.com/regexp/">正则表达式</a></li>
+</ul>
+</li>
+<li id="menu-item-272" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-272"><a href="https://www.mscto.com/data/">数据库</a>
+<ul class="sub-menu">
+	<li id="menu-item-281" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-281"><a href="https://www.mscto.com/mysql/">Mysql</a></li>
+	<li id="menu-item-284" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-284"><a href="https://www.mscto.com/sql/">SQL</a></li>
+	<li id="menu-item-331" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-331"><a href="https://www.mscto.com/oracle/">Oracle</a></li>
+	<li id="menu-item-285" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-285"><a href="https://www.mscto.com/sqlite/">SQLite</a></li>
+	<li id="menu-item-280" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-280"><a href="https://www.mscto.com/mongodb/">MongoDB</a></li>
+	<li id="menu-item-282" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-282"><a href="https://www.mscto.com/postgresql/">PostgreSQL</a></li>
+	<li id="menu-item-279" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-279"><a href="https://www.mscto.com/memcached/">Memcached</a></li>
+	<li id="menu-item-283" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-283"><a href="https://www.mscto.com/redis/">Redis</a></li>
+</ul>
+</li>
+<li id="menu-item-273" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-273"><a href="https://www.mscto.com/server/">服务端</a>
+<ul class="sub-menu">
+	<li id="menu-item-305" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-305"><a href="https://www.mscto.com/python/">Python</a></li>
+	<li id="menu-item-304" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-304"><a href="https://www.mscto.com/java/">JAVA</a></li>
+	<li id="menu-item-303" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-303"><a href="https://www.mscto.com/go/">GO</a></li>
+	<li id="menu-item-302" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-302"><a href="https://www.mscto.com/cpp/">C++</a></li>
+	<li id="menu-item-300" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-300"><a href="https://www.mscto.com/c/">C语言</a></li>
+	<li id="menu-item-306" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-306"><a href="https://www.mscto.com/python3/">Python3</a></li>
+	<li id="menu-item-299" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-299"><a href="https://www.mscto.com/aspnet/">ASP.NET</a></li>
+	<li id="menu-item-301" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-301"><a href="https://www.mscto.com/csharp/">C#</a></li>
+	<li id="menu-item-307" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-307"><a href="https://www.mscto.com/ruby/">Ruby</a></li>
+</ul>
+</li>
+<li id="menu-item-404576" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-404576"><a href="https://www.mscto.com/smartprogram/">小程序</a>
+<ul class="sub-menu">
+	<li id="menu-item-268" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-268"><a href="https://www.mscto.com/weixin/">微信小程序</a></li>
+	<li id="menu-item-269" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-269"><a href="https://www.mscto.com/baidu/">百度小程序</a></li>
+	<li id="menu-item-146" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-146"><a href="https://www.mscto.com/toutiao/">今日头条小程序</a></li>
+	<li id="menu-item-4337" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4337"><a href="https://www.mscto.com/alipay/">支付宝小程序</a></li>
+	<li id="menu-item-4346" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4346"><a href="https://www.mscto.com/qq/">QQ小程序</a></li>
+	<li id="menu-item-4336" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4336"><a href="https://www.mscto.com/kuaiapp/">快应用</a></li>
+</ul>
+</li>
+<li id="menu-item-275" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-275"><a href="https://www.mscto.com/mobile/">移动端</a>
+<ul class="sub-menu">
+	<li id="menu-item-4352" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4352"><a href="https://www.mscto.com/android/">Android</a></li>
+	<li id="menu-item-34681" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-34681"><a href="https://www.mscto.com/ios/">IOS</a></li>
+	<li id="menu-item-4357" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4357"><a href="https://www.mscto.com/swift/">Swift</a></li>
+	<li id="menu-item-4354" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4354"><a href="https://www.mscto.com/jquerymobile/">jQuery Mobile</a></li>
+	<li id="menu-item-4353" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4353"><a href="https://www.mscto.com/ionic/">ionic</a></li>
+	<li id="menu-item-4355" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4355"><a href="https://www.mscto.com/kotlin/">Kotlin</a></li>
+</ul>
+</li>
+<li id="menu-item-274" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-274"><a href="https://www.mscto.com/iot/">物联网</a></li>
+<li id="menu-item-270" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-270"><a href="https://www.mscto.com/ai/">人工智能</a></li>
+<li id="menu-item-36412" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-36412"><a href="https://www.mscto.com/bigdata/">大数据</a></li>
+<li id="menu-item-271" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-271"><a href="https://www.mscto.com/cloud/">云计算</a></li>
+<li id="menu-item-267" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-267"><a href="https://www.mscto.com/blockchain/">区块链</a></li>
+<li id="menu-item-276" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-276"><a href="https://www.mscto.com/web/">Web</a>
+<ul class="sub-menu">
+	<li id="menu-item-308" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-308"><a href="https://www.mscto.com/html/">HTML</a></li>
+	<li id="menu-item-310" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-310"><a href="https://www.mscto.com/php/">PHP</a></li>
+	<li id="menu-item-309" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-309"><a href="https://www.mscto.com/asp/">ASP</a></li>
+	<li id="menu-item-311" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-311"><a href="https://www.mscto.com/w3c/">W3C</a></li>
+	<li id="menu-item-312" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-312"><a href="https://www.mscto.com/vue/">Vue.js</a></li>
+</ul>
+</li>
+<li id="menu-item-277" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-277"><a href="https://www.mscto.com/op/">运维</a>
+<ul class="sub-menu">
+	<li id="menu-item-328" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-328"><a href="https://www.mscto.com/linux/">Linux</a></li>
+	<li id="menu-item-322" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-322"><a href="https://www.mscto.com/ubuntu/">ubuntu</a></li>
+	<li id="menu-item-325" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-325"><a href="https://www.mscto.com/centos/">centos</a></li>
+	<li id="menu-item-320" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-320"><a href="https://www.mscto.com/shell/">shell</a></li>
+	<li id="menu-item-329" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-329"><a href="https://www.mscto.com/nginx/">Nginx</a></li>
+	<li id="menu-item-324" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-324"><a href="https://www.mscto.com/apache/">Apache</a></li>
+	<li id="menu-item-321" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-321"><a href="https://www.mscto.com/tomcat/">Tomcat</a></li>
+	<li id="menu-item-326" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-326"><a href="https://www.mscto.com/docker/">Docker</a></li>
+	<li id="menu-item-327" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-327"><a href="https://www.mscto.com/iis/">IIS</a></li>
+	<li id="menu-item-323" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-323"><a href="https://www.mscto.com/windows/">windows</a></li>
+	<li id="menu-item-34730" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-34730"><a href="https://www.mscto.com/powershell/">PowerShell</a></li>
+</ul>
+</li>
+<li id="menu-item-287" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-287"><a href="https://www.mscto.com/5g/">5G</a></li>
+<li id="menu-item-313" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-313"><a href="https://www.mscto.com/opensource/">开源</a>
+<ul class="sub-menu">
+	<li id="menu-item-314" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-314"><a href="https://www.mscto.com/wordpress/">WordPress</a></li>
+</ul>
+</li>
+</ul>					
+				
+				<!-- END NAV -->	
+			
+			
+				<!-- BEGIN LOGIN/REGISTER -->
+			
+							
+				<!-- END LOGIN/REGISTER -->
+		
+
+									<a id="mobile-nav-button"><i class="fa fa-bars"></i></a>
+						
+						
+			</div>
+		
+			<!-- END NAV -->
+		
+	
+			<nav id="mobile-nav">
+
+				<!-- BEGIN LOGIN/REGISTER -->
+			
+							
+				<!-- END LOGIN/REGISTER -->
+							
+				<ul class="menu"><li class="home menu-item menu-item-type-custom menu-item-object-custom menu-item-13"><a href="/">首页</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4358"><a href="/">热门</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4364"><a href="https://www.mscto.com/java/">JAVA</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4361"><a href="https://www.mscto.com/c/">C语言</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4367"><a href="https://www.mscto.com/python3/">Python3</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4362"><a href="https://www.mscto.com/cpp/">C++</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4359"><a href="https://www.mscto.com/javascript/">JavaScript</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4363"><a href="https://www.mscto.com/go/">GO</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4365"><a href="https://www.mscto.com/mysql/">Mysql</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4360"><a href="https://www.mscto.com/android/">Android</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4368"><a href="https://www.mscto.com/swift/">Swift</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-286"><a href="https://www.mscto.com/client/">前端</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-330"><a href="https://www.mscto.com/html/">HTML</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-292"><a href="https://www.mscto.com/html5/">HTML5</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-290"><a href="https://www.mscto.com/css/">CSS</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-291"><a href="https://www.mscto.com/css3/">CSS3</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-294"><a href="https://www.mscto.com/jquery/">jQuery</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-293"><a href="https://www.mscto.com/javascript/">JavaScript</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-297"><a href="https://www.mscto.com/vue/">Vue.js</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-296"><a href="https://www.mscto.com/nodejs/">Node.js</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-295"><a href="https://www.mscto.com/json/">JSON</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-288"><a href="https://www.mscto.com/bootstrap3/">Bootstrap3</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-289"><a href="https://www.mscto.com/bootstrap4/">Bootstrap4</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-298"><a href="https://www.mscto.com/fontawesome/">Font Awesome</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-388"><a href="https://www.mscto.com/regexp/">正则表达式</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-272"><a href="https://www.mscto.com/data/">数据库</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-281"><a href="https://www.mscto.com/mysql/">Mysql</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-284"><a href="https://www.mscto.com/sql/">SQL</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-331"><a href="https://www.mscto.com/oracle/">Oracle</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-285"><a href="https://www.mscto.com/sqlite/">SQLite</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-280"><a href="https://www.mscto.com/mongodb/">MongoDB</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-282"><a href="https://www.mscto.com/postgresql/">PostgreSQL</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-279"><a href="https://www.mscto.com/memcached/">Memcached</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-283"><a href="https://www.mscto.com/redis/">Redis</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-273"><a href="https://www.mscto.com/server/">服务端</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-305"><a href="https://www.mscto.com/python/">Python</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-304"><a href="https://www.mscto.com/java/">JAVA</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-303"><a href="https://www.mscto.com/go/">GO</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-302"><a href="https://www.mscto.com/cpp/">C++</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-300"><a href="https://www.mscto.com/c/">C语言</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-306"><a href="https://www.mscto.com/python3/">Python3</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-299"><a href="https://www.mscto.com/aspnet/">ASP.NET</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-301"><a href="https://www.mscto.com/csharp/">C#</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-307"><a href="https://www.mscto.com/ruby/">Ruby</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-404576"><a href="https://www.mscto.com/smartprogram/">小程序</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-268"><a href="https://www.mscto.com/weixin/">微信小程序</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-269"><a href="https://www.mscto.com/baidu/">百度小程序</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-146"><a href="https://www.mscto.com/toutiao/">今日头条小程序</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4337"><a href="https://www.mscto.com/alipay/">支付宝小程序</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4346"><a href="https://www.mscto.com/qq/">QQ小程序</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4336"><a href="https://www.mscto.com/kuaiapp/">快应用</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-275"><a href="https://www.mscto.com/mobile/">移动端</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4352"><a href="https://www.mscto.com/android/">Android</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-34681"><a href="https://www.mscto.com/ios/">IOS</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4357"><a href="https://www.mscto.com/swift/">Swift</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4354"><a href="https://www.mscto.com/jquerymobile/">jQuery Mobile</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4353"><a href="https://www.mscto.com/ionic/">ionic</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4355"><a href="https://www.mscto.com/kotlin/">Kotlin</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-274"><a href="https://www.mscto.com/iot/">物联网</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-270"><a href="https://www.mscto.com/ai/">人工智能</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-36412"><a href="https://www.mscto.com/bigdata/">大数据</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-271"><a href="https://www.mscto.com/cloud/">云计算</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-267"><a href="https://www.mscto.com/blockchain/">区块链</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-276"><a href="https://www.mscto.com/web/">Web</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-308"><a href="https://www.mscto.com/html/">HTML</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-310"><a href="https://www.mscto.com/php/">PHP</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-309"><a href="https://www.mscto.com/asp/">ASP</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-311"><a href="https://www.mscto.com/w3c/">W3C</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-312"><a href="https://www.mscto.com/vue/">Vue.js</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-277"><a href="https://www.mscto.com/op/">运维</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-328"><a href="https://www.mscto.com/linux/">Linux</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-322"><a href="https://www.mscto.com/ubuntu/">ubuntu</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-325"><a href="https://www.mscto.com/centos/">centos</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-320"><a href="https://www.mscto.com/shell/">shell</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-329"><a href="https://www.mscto.com/nginx/">Nginx</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-324"><a href="https://www.mscto.com/apache/">Apache</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-321"><a href="https://www.mscto.com/tomcat/">Tomcat</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-326"><a href="https://www.mscto.com/docker/">Docker</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-327"><a href="https://www.mscto.com/iis/">IIS</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-323"><a href="https://www.mscto.com/windows/">windows</a></li>
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-34730"><a href="https://www.mscto.com/powershell/">PowerShell</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-287"><a href="https://www.mscto.com/5g/">5G</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-313"><a href="https://www.mscto.com/opensource/">开源</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-314"><a href="https://www.mscto.com/wordpress/">WordPress</a></li>
+</ul>
+</li>
+</ul>			</nav><!-- END MOBILE MENU -->
+
+				
+		</div>
+	
+		<!-- END HEADER -->
+	
+	
+		<!-- BEGIN CONTENT WRAPPER -->
+	
+		<div id="content-wrapper">
+
+			
+			<!-- BEGIN LEFT CONTENT WRAPPER -->
+			
+			<div id="left-content-wrapper">		
+
+			
+
+
+
+
+	<!-- BEGIN CONTENT -->
+	
+	<div id="content">
+
+
+		<!-- BEGIN IMAGE -->
+
+				
+		<!-- END IMAGE -->
+		
+		
+		<!-- BEGIN PADDER -->
+							
+		<div class="padder">
+
+
+			<!-- BEGIN TITLE -->
+
+			<h1 class="page-title">vue项目中引入noVNC远程桌面的方法</h1>			
+			<!-- END TITLE -->
+						
+
+			<!-- BEGIN POST META -->	
+
+							
+				<div class="post-meta">
+					
+					<span><i class="fa fa-user"></i><a href="https://www.mscto.com/author/admin/" title="由小M发布" rel="author">小M</a></span>					
+					<span><i class="fa fa-calendar"></i>2020年1月16日</span>					
+					<span><i class="fa fa-folder-open"></i><a href="https://www.mscto.com/vue/" rel="category tag">Vue.js</a></span>					
+										
+				</div>
+				
+						
+			<!-- END POST META -->
+			
+			
+			<!-- BEGIN POST CONTENT -->
+				
+				
+			
+				<div id="post-content">
+				<script type="text/javascript" src="//js.mscto.com/production/f/a_zgg_pbxb.js"></script>				
+					<!-- BEGIN IMAGE -->
+			
+										
+					<!-- END IMAGE -->
+
+						
+					<p><strong>1 、首先，先简单介绍一下概念。</strong></p>
+<p>VNCServer 是一个为了满足分布式用户共享服务器资源，而在服务器开启的一项服务，对应的客户端软件有图形化客户端 VNCViewer，而 noVNC 则是 HTML5 VNC 客户端，它采用 HTML 5 WebSocket, Canvas 和 JavaScript 实现。</p>
+<p>noVNC 被普遍用在各大云计算、虚拟机控制面板中。noVNC 采用 WebSockets 实现，但是当前大多 VNC 服务器不支持 WebSocket，所以 noVNC 不能直连 VNC 服务器，而是需要开启一个代理来做 WebSockets 和 TCP sockets 之间的转换。这个代理叫做 websockify。</p>
+<p><strong>2 、项目中有这样一个需求，系统中有多个功能页，但是功能还包括原有的在物理终端设备上的功能</strong>（包括后来在电脑的虚拟终端客户端），这就用到了noVNC。好处是可以将其他功能系统（或称之为页面）嵌入新的项目中，还可以去点击操作上面的功能等，可以暂时解决一些问题。</p>
+<p><strong>3 、由于项目框架是vue，所以以下均为前端实现部分</strong></p>
+<p>首先是先引入noVNC的库。有两种引入方式，一是，直接下载源码到自己的项目中，此方式一些问题下面进行详细介绍；</p>
+<p><code><br />
+git clone git://github.com/novnc/noVNC </code></p>
+<p>二是，如果采用了webpack的方式，可以使用npm进行安装依赖，更方便。</p>
+<p><code><br />
+npm install @novnc/novnc </code></p>
+<p><strong>下面是详细代码部分</strong></p>
+<p><strong>HTML</strong></p>
+<p><code><br />
+&lt;template&gt;<br />
+ &lt;div class="page-home" ref="canvas"&gt;<br />
+ &lt;canvas id="noVNC_canvas" width="800" height="600"&gt;<br />
+ Canvas not supported.<br />
+ &lt;/canvas&gt;<br />
+ &lt;/div&gt;<br />
+&lt;/template&gt; </code></p>
+<p><strong>Script</strong></p>
+<p><code><br />
+import WebUtil from '../../noVNC/app/webutil.js' </p>
+<p>import Base64 from '../../noVNC/core/base64.js'<br />
+import Websock from '../../noVNC/core/websock.js'<br />
+import '../../noVNC/core/des.js'<br />
+import '../../noVNC/core/input/keysymdef.js'<br />
+import '../../noVNC/core/input/xtscancodes.js'<br />
+import '../../noVNC/core/input/util.js'<br />
+import {Keyboard, Mouse} from '../../noVNC/core/input/devices.js'<br />
+import Display from '../../noVNC/core/display.js'<br />
+import '../../noVNC/core/inflator.js'<br />
+import RFB from '../../noVNC/core/rfb.js'<br />
+import '../../noVNC/core/input/keysym.js' </code></p>
+<p>由于采用的是第一种引入方式，所以在资源引入上用了import的方式。需要注意的是在引入某些文件时，项目是基于es6的语法，所以引入外部js的方式略有差异。例如引入webutil.js文件，需要增加export default，然后才能正确使用。在引入时可以稍微修改一下文件即可。文件中有相应的备注描述。</p>
+<p><strong>引入资源完成后接下来就是如何去使用了，其实并不复杂。话不多说，上码。</strong></p>
+<p><code><br />
+connectVNC () {<br />
+ var<br />
+  DEFAULT_HOST = '',<br />
+  DEFAULT_PORT = '',<br />
+  DEFAULT_PASSWORD = "",<br />
+  DEFAULT_PATH = "websockify"<br />
+ ;<br />
+ var cRfb = null;<br />
+ var oTarget = document.getElementById("noVNC_canvas");<br />
+ let that = this<br />
+ if (!this.currentEquipment) {<br />
+  return<br />
+ }<br />
+ let novncPort = this.currentEquipment.novncPort<br />
+ getNovncIp().then(function (resData) {<br />
+  WebUtil.init_logging(WebUtil.getConfigVar("logging", "warn"));<br />
+  var sHost = resData.data.content.ip || DEFAULT_HOST,<br />
+  nPort = novncPort || DEFAULT_PORT,<br />
+  sPassword = DEFAULT_PASSWORD,<br />
+  sPath = DEFAULT_PATH<br />
+  ;<br />
+  cRfb = new RFB({<br />
+  "target": oTarget,&lt;span class="space" style="white-space:pre;display:inline-block;text-indent:2em;line-height:inherit;"&gt; // 目标&lt;/span&gt;<br />
+  "focusContainer": top.document, // 鼠标焦点定位<br />
+  "encrypt": WebUtil.getConfigVar("encrypt", window.location.protocol === "https:"),<br />
+  "repeaterID": WebUtil.getConfigVar("repeaterID", ""),<br />
+  "true_color": WebUtil.getConfigVar("true_color", true),<br />
+  "local_cursor": WebUtil.getConfigVar("cursor", true),<br />
+  "shared": WebUtil.getConfigVar("shared", true),<br />
+  "view_only": WebUtil.getConfigVar("view_only", false),<br />
+  "onFBUComplete": that._onCompleteHandler, // 回调函数<br />
+  "onDisconnected": that._disconnected // 断开连接<br />
+  });<br />
+  // console.log('sHost:' + sHost + '--nPort:' + nPort)<br />
+  cRfb.connect(sHost, nPort, sPassword, sPath);<br />
+ })<br />
+ },</code></p>
+<p>首先是在methods生命周期中定义了一个方法，把初始化相关的操作写在里面。然后再mounted生命周期中去调用this.connectVnc()。一定要在这个生命周期内去调用，否则canvas未初始化是不能获取到dom结构的。</p>
+<p>简单描述一下就是，实例化一个对象，包括一些用到的方法或者属性，然后调用connect方法，并传入host,port,password,path参数即可建立连接。</p>
+<p>其中有两个方法，一个是链接成功后的回调_.onCompleteHandler，一个是断开连接的回调_disconnected</p>
+<p><code><br />
+// 远程桌面连接成功后的回调函数<br />
+ _onCompleteHandler (rfb, fbu) {<br />
+ // 清除 onComplete 的回调。<br />
+ rfb.set_onFBUComplete(function () {<br />
+ }); </p>
+<p> var oDisplay = rfb.get_display(),<br />
+  nWidth = oDisplay.get_width(),<br />
+  nHeight = oDisplay.get_height(), </p>
+<p>  oView = oDisplay.get_target(),<br />
+  nViewWidth = oView.clientWidth,<br />
+  nViewHeight = oView.clientHeight<br />
+ ; </p>
+<p> // 设置当前与实际的比例。<br />
+ oDisplay.setScale(nWidth / nViewWidth, nHeight / nViewHeight); </p>
+<p> } </code></p>
+<p>可以在连接成功后设置一些参数信息或者屏幕尺寸等。</p>
+<p>做好以上操作之后，就可以在网页上看到一个远程桌面屏幕了哦。</p>
+<p><img class="alignnone size-full wp-image-54075" src="https://www.mscto.com/wp-content/uploads/2020/01/npg1nw0eysn.jpg" width="922" height="609" alt="" /></p>
+<p>一个简单的远程桌面，是可以操作的哦。有更多其他的参数或者要求的可以参考官网<strong>点击打开链接</strong>。或者联系我讨论哦</p>
+<p>以上这篇vue项目中引入noVNC远程桌面的方法就是小编分享给大家的全部内容了，希望能给大家一个参考，也希望大家多多支持软件开发网。</p>
+					
+				</div>
+				
+			 
+			<!-- END POST CONTENT -->
+						
+			
+			<!-- BEGIN POST NAV -->
+						
+					
+			
+			<!-- END POST NAV -->
+	
+	
+			<!-- BEGIN POST TAGS -->
+			
+			<div class="post-meta post-tags"><span><i class="fa fa-tags"></i><a href="https://www.mscto.com/tag/792/" rel="tag">core</a>, <a href="https://www.mscto.com/tag/2332/" rel="tag">ue</a>, <a href="https://www.mscto.com/tag/482/" rel="tag">vue</a>, <a href="https://www.mscto.com/tag/5814/" rel="tag">方法</a>, <a href="https://www.mscto.com/tag/1960/" rel="tag">远程桌面</a></span></div>			
+			<!-- END POST TAGS -->
+			<p><script type="text/javascript" src="//js.mscto.com/common/g/static/b/common/ah/openjs/hq_cyd.js"></script></p>
+			<p class="prev"><a href="https://www.mscto.com/vue/37723.html" rel="prev">上一篇：WordPress免插件生成完整站点地图(sitemap.xml)的php代码</a></p><p class="next"><a href="https://www.mscto.com/vue/108671.html" rel="next">下一篇：ASP中Web页面间的数据传递方式</a></p>
+			
+			<!-- BEGIN AUHTOR INFO PANEL -->
+			
+						
+			<!-- END AUTHOR INFO PANEL -->
+			
+			
+			<!-- BEGIN RELATED ITEMS -->
+			
+							
+						
+	
+		<!-- BEGIN POST WRAPPER -->	
+	
+		<div class="post-wrapper related-posts relatedposts1 spacing-small">
+		
+		
+			<!-- BEGIN HEADER -->	
+		
+			<h3>相关推荐</h3>
+		
+			<!-- END HEADER -->	
+		
+		
+			
+			
+				<!-- BEGIN POST -->	
+			
+				<div class="post-loop first-column post-columns  post-636904 post type-post status-publish format-standard hentry category-mysql tag-275 tag-14074 tag-7081 tag-5814 tag-6097 tag-369" style="width: 22%;">
+						
+				
+					<!-- BEGIN FEATURED IMAGE -->	
+				
+									
+					<!-- END FEATURED IMAGE -->	
+				
+
+					<!-- BEGIN LIGHTBOX IMAGES -->
+				
+													
+					<!-- END LIGHTBOX IMAGES -->
+				
+								
+					<!-- BEGIN POST TEXT -->	
+				
+					<div class="post-text">
+				
+					
+						<!-- BEGIN TITLE -->	
+					
+						<h2 style="font-size: 12px; "><a href="https://www.mscto.com/mysql/636904.html" title="mysql 触发器创建与使用方法示例">mysql 触发器创建与使用方法示例</a></h2>					
+						<!-- END TITLE -->
+											
+					
+						<!-- BEGIN POST META -->	
+					
+											
+						<!-- END POST META -->	
+					
+					
+						<!-- BEGIN POST CONTENT -->	
+					
+											
+													
+											
+						<!-- END POST CONTENT -->	
+					
+					
+						<!-- BEGIN POST TAGS -->	
+					
+											
+						<!-- END POST TAGS -->	
+					
+				
+					</div>
+				
+					<!-- END POST TEXT -->	
+				
+	
+				</div>
+			
+				<!-- END POST -->	
+			
+			
+							
+			
+			
+			
+				<!-- BEGIN POST -->	
+			
+				<div class="post-loop post-columns  post-636794 post type-post status-publish format-standard hentry category-android tag-4163 tag-24882 tag-609 tag-6711 tag-12758 tag-4226 tag-14801 tag-5814 tag-665 tag-12389 tag-6238" style="width: 22%;">
+						
+				
+					<!-- BEGIN FEATURED IMAGE -->	
+				
+									
+					<!-- END FEATURED IMAGE -->	
+				
+
+					<!-- BEGIN LIGHTBOX IMAGES -->
+				
+													
+					<!-- END LIGHTBOX IMAGES -->
+				
+								
+					<!-- BEGIN POST TEXT -->	
+				
+					<div class="post-text">
+				
+					
+						<!-- BEGIN TITLE -->	
+					
+						<h2 style="font-size: 12px; "><a href="https://www.mscto.com/android/636794.html" title="Android Studio 创建自定义控件的方法">Android Studio 创建自定义控件的方法</a></h2>					
+						<!-- END TITLE -->
+											
+					
+						<!-- BEGIN POST META -->	
+					
+											
+						<!-- END POST META -->	
+					
+					
+						<!-- BEGIN POST CONTENT -->	
+					
+											
+													
+											
+						<!-- END POST CONTENT -->	
+					
+					
+						<!-- BEGIN POST TAGS -->	
+					
+											
+						<!-- END POST TAGS -->	
+					
+				
+					</div>
+				
+					<!-- END POST TEXT -->	
+				
+	
+				</div>
+			
+				<!-- END POST -->	
+			
+			
+							
+			
+			
+			
+				<!-- BEGIN POST -->	
+			
+				<div class="post-loop post-columns  post-636401 post type-post status-publish format-standard hentry category-vue tag-2332 tag-482" style="width: 22%;">
+						
+				
+					<!-- BEGIN FEATURED IMAGE -->	
+				
+									
+					<!-- END FEATURED IMAGE -->	
+				
+
+					<!-- BEGIN LIGHTBOX IMAGES -->
+				
+													
+					<!-- END LIGHTBOX IMAGES -->
+				
+								
+					<!-- BEGIN POST TEXT -->	
+				
+					<div class="post-text">
+				
+					
+						<!-- BEGIN TITLE -->	
+					
+						<h2 style="font-size: 12px; "><a href="https://www.mscto.com/vue/636401.html" title="详解vue高级特性">详解vue高级特性</a></h2>					
+						<!-- END TITLE -->
+											
+					
+						<!-- BEGIN POST META -->	
+					
+											
+						<!-- END POST META -->	
+					
+					
+						<!-- BEGIN POST CONTENT -->	
+					
+											
+													
+											
+						<!-- END POST CONTENT -->	
+					
+					
+						<!-- BEGIN POST TAGS -->	
+					
+											
+						<!-- END POST TAGS -->	
+					
+				
+					</div>
+				
+					<!-- END POST TEXT -->	
+				
+	
+				</div>
+			
+				<!-- END POST -->	
+			
+			
+							
+			
+			
+			
+				<!-- BEGIN POST -->	
+			
+				<div class="post-loop post-columns  post-636452 post type-post status-publish format-standard hentry category-vue tag-2332 tag-482 tag-3943 tag-3832" style="width: 22%;">
+						
+				
+					<!-- BEGIN FEATURED IMAGE -->	
+				
+									
+					<!-- END FEATURED IMAGE -->	
+				
+
+					<!-- BEGIN LIGHTBOX IMAGES -->
+				
+													
+					<!-- END LIGHTBOX IMAGES -->
+				
+								
+					<!-- BEGIN POST TEXT -->	
+				
+					<div class="post-text">
+				
+					
+						<!-- BEGIN TITLE -->	
+					
+						<h2 style="font-size: 12px; "><a href="https://www.mscto.com/vue/636452.html" title="vue实现学生信息管理系统">vue实现学生信息管理系统</a></h2>					
+						<!-- END TITLE -->
+											
+					
+						<!-- BEGIN POST META -->	
+					
+											
+						<!-- END POST META -->	
+					
+					
+						<!-- BEGIN POST CONTENT -->	
+					
+											
+													
+											
+						<!-- END POST CONTENT -->	
+					
+					
+						<!-- BEGIN POST TAGS -->	
+					
+											
+						<!-- END POST TAGS -->	
+					
+				
+					</div>
+				
+					<!-- END POST TEXT -->	
+				
+	
+				</div>
+			
+				<!-- END POST -->	
+			
+			
+				<div class="clear"></div>			
+			
+			
+
+			<div class="clear"></div>
+
+
+		</div>
+	
+		<!-- END POST WRAPPER -->	
+	
+
+				
+					
+			
+			<!-- END RELATED ITEMS -->			
+			
+			
+			<!-- BEGIN COMMENTS -->
+			
+						
+			<!-- END COMMENTS -->
+			
+		
+		</div>
+		
+		<!-- END PADDER -->
+			
+			
+	</div>
+	
+	<!-- END CONTENT -->
+	
+
+
+
+
+
+
+	
+				
+
+
+	
+	<!-- BEGIN SIDEBAR -->
+		
+	<div id="sidebar-left" class="sidebar">
+			
+			
+			
+			
+			<!-- BEGIN SELECTED WIDGETS -->
+
+			<div id="nav_menu-2" class="widget widget_nav_menu"><div class="menu-all_left-container"><ul id="menu-all_left" class="menu"><li id="menu-item-252" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-252"><a href="https://www.mscto.com/server/">服务端开发</a>
+<ul class="sub-menu">
+	<li id="menu-item-208" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-208"><a href="https://www.mscto.com/python/">Python</a></li>
+	<li id="menu-item-253" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-253"><a href="https://www.mscto.com/python3/">Python3</a></li>
+	<li id="menu-item-210" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-210"><a href="https://www.mscto.com/linux/">Linux</a></li>
+	<li id="menu-item-209" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-209"><a href="https://www.mscto.com/docker/">Docker</a></li>
+	<li id="menu-item-254" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-254"><a href="https://www.mscto.com/ruby/">Ruby</a></li>
+	<li id="menu-item-201" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-201"><a href="https://www.mscto.com/java/">JAVA</a></li>
+	<li id="menu-item-196" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-196"><a href="https://www.mscto.com/c/">C语言</a></li>
+	<li id="menu-item-198" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-198"><a href="https://www.mscto.com/cpp/">C++</a></li>
+	<li id="menu-item-206" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-206"><a href="https://www.mscto.com/perl/">Perl</a></li>
+	<li id="menu-item-256" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-256"><a href="https://www.mscto.com/servlet/">Servlet</a></li>
+	<li id="menu-item-215" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-215"><a href="https://www.mscto.com/jsp/">JSP</a></li>
+	<li id="menu-item-202" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-202"><a href="https://www.mscto.com/lua/">Lua</a></li>
+	<li id="menu-item-255" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-255"><a href="https://www.mscto.com/scala/">Scala</a></li>
+	<li id="menu-item-200" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-200"><a href="https://www.mscto.com/go/">GO</a></li>
+	<li id="menu-item-207" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-207"><a href="https://www.mscto.com/php/">PHP</a></li>
+	<li id="menu-item-199" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-199"><a href="https://www.mscto.com/django/">Django</a></li>
+	<li id="menu-item-203" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-203"><a href="https://www.mscto.com/maven/">Maven</a></li>
+	<li id="menu-item-205" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-205"><a href="https://www.mscto.com/numpy/">NumPy</a></li>
+	<li id="menu-item-194" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-194"><a href="https://www.mscto.com/asp/">ASP</a></li>
+	<li id="menu-item-193" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-193"><a href="https://www.mscto.com/appml/">AppML</a></li>
+	<li id="menu-item-239" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-239"><a href="https://www.mscto.com/vbscript/">VBScript</a></li>
+	<li id="menu-item-195" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-195"><a href="https://www.mscto.com/aspnet/">ASP.NET</a></li>
+	<li id="menu-item-197" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-197"><a href="https://www.mscto.com/csharp/">C#</a></li>
+	<li id="menu-item-265" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-265"><a href="https://www.mscto.com/razor/">Razor</a></li>
+	<li id="menu-item-172" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-172"><a href="https://www.mscto.com/mvc/">MVC</a></li>
+	<li id="menu-item-227" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-227"><a href="https://www.mscto.com/wsdl/">WSDL</a></li>
+	<li id="menu-item-222" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-222"><a href="https://www.mscto.com/soap/">SOAP</a></li>
+	<li id="menu-item-221" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-221"><a href="https://www.mscto.com/rss/">RSS</a></li>
+	<li id="menu-item-220" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-220"><a href="https://www.mscto.com/rdf/">RDF</a></li>
+</ul>
+</li>
+<li id="menu-item-237" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor menu-item-has-children menu-item-237"><a href="https://www.mscto.com/client/">前端开发</a>
+<ul class="sub-menu">
+	<li id="menu-item-184" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-184"><a href="https://www.mscto.com/html/">HTML</a></li>
+	<li id="menu-item-185" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-185"><a href="https://www.mscto.com/html5/">HTML5</a></li>
+	<li id="menu-item-178" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-178"><a href="https://www.mscto.com/css/">CSS</a></li>
+	<li id="menu-item-179" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-179"><a href="https://www.mscto.com/css3/">CSS3</a></li>
+	<li id="menu-item-176" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-176"><a href="https://www.mscto.com/bootstrap3/">Bootstrap3</a></li>
+	<li id="menu-item-177" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-177"><a href="https://www.mscto.com/bootstrap4/">Bootstrap4</a></li>
+	<li id="menu-item-181" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-181"><a href="https://www.mscto.com/fontawesome/">Font Awesome</a></li>
+	<li id="menu-item-182" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-182"><a href="https://www.mscto.com/foundation/">Foundation</a></li>
+	<li id="menu-item-186" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-186"><a href="https://www.mscto.com/javascript/">JavaScript</a></li>
+	<li id="menu-item-175" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-175"><a href="https://www.mscto.com/angularjs2/">AngularJS2</a></li>
+	<li id="menu-item-187" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-187"><a href="https://www.mscto.com/jquery/">jQuery</a></li>
+	<li id="menu-item-174" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-174"><a href="https://www.mscto.com/angularjs/">AngularJS</a></li>
+	<li id="menu-item-240" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-240"><a href="https://www.mscto.com/vue/">Vue.js</a></li>
+	<li id="menu-item-266" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-266"><a href="https://www.mscto.com/react/">React</a></li>
+	<li id="menu-item-238" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-238"><a href="https://www.mscto.com/typescript/">TypeScript</a></li>
+	<li id="menu-item-204" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-204"><a href="https://www.mscto.com/nodejs/">Node.js</a></li>
+	<li id="menu-item-173" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-173"><a href="https://www.mscto.com/ajax/">AJAX</a></li>
+	<li id="menu-item-188" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-188"><a href="https://www.mscto.com/json/">JSON</a></li>
+	<li id="menu-item-180" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-180"><a href="https://www.mscto.com/echarts/">Echarts</a></li>
+	<li id="menu-item-183" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-183"><a href="https://www.mscto.com/highcharts/">Highcharts</a></li>
+	<li id="menu-item-229" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-229"><a href="https://www.mscto.com/xml/">XML</a></li>
+	<li id="menu-item-171" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-171"><a href="https://www.mscto.com/dtd/">DTD</a></li>
+	<li id="menu-item-234" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-234"><a href="https://www.mscto.com/xslt/">XSLT</a></li>
+	<li id="menu-item-230" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-230"><a href="https://www.mscto.com/xpath/">XPath</a></li>
+	<li id="menu-item-232" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-232"><a href="https://www.mscto.com/xquery/">XQuery</a></li>
+	<li id="menu-item-228" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-228"><a href="https://www.mscto.com/xlink/">XLink</a></li>
+	<li id="menu-item-231" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-231"><a href="https://www.mscto.com/xpointer/">XPointer</a></li>
+	<li id="menu-item-233" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-233"><a href="https://www.mscto.com/xslfo/">XSL-FO</a></li>
+	<li id="menu-item-223" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-223"><a href="https://www.mscto.com/svg/">SVG</a></li>
+</ul>
+</li>
+<li id="menu-item-248" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-248"><a href="https://www.mscto.com/data/">数据库开发</a>
+<ul class="sub-menu">
+	<li id="menu-item-250" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-250"><a href="https://www.mscto.com/sql/">SQL</a></li>
+	<li id="menu-item-218" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-218"><a href="https://www.mscto.com/mysql/">Mysql</a></li>
+	<li id="menu-item-219" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-219"><a href="https://www.mscto.com/postgresql/">PostgreSQL</a></li>
+	<li id="menu-item-251" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-251"><a href="https://www.mscto.com/sqlite/">SQLite</a></li>
+	<li id="menu-item-217" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-217"><a href="https://www.mscto.com/mongodb/">MongoDB</a></li>
+	<li id="menu-item-249" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-249"><a href="https://www.mscto.com/redis/">Redis</a></li>
+	<li id="menu-item-216" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-216"><a href="https://www.mscto.com/memcached/">Memcached</a></li>
+</ul>
+</li>
+<li id="menu-item-260" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-260"><a href="https://www.mscto.com/mobile/">移动端开发</a>
+<ul class="sub-menu">
+	<li id="menu-item-189" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-189"><a href="https://www.mscto.com/android/">Android</a></li>
+	<li id="menu-item-22929" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22929"><a href="https://www.mscto.com/ios/">IOS</a></li>
+	<li id="menu-item-261" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-261"><a href="https://www.mscto.com/swift/">Swift</a></li>
+	<li id="menu-item-191" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-191"><a href="https://www.mscto.com/jquerymobile/">jQuery Mobile</a></li>
+	<li id="menu-item-190" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-190"><a href="https://www.mscto.com/ionic/">ionic</a></li>
+	<li id="menu-item-192" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-192"><a href="https://www.mscto.com/kotlin/">Kotlin</a></li>
+</ul>
+</li>
+<li id="menu-item-264" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-264"><a href="https://www.mscto.com/pm/">项目管理</a>
+<ul class="sub-menu">
+	<li id="menu-item-227703" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-227703"><a href="https://www.mscto.com/designpattern/">设计模式</a></li>
+</ul>
+</li>
+<li id="menu-item-257" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-257"><a href="https://www.mscto.com/test/">开发测试</a>
+<ul class="sub-menu">
+	<li id="menu-item-228684" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-228684"><a href="https://www.mscto.com/xingnengceshi/">性能测试</a></li>
+	<li id="menu-item-228685" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-228685"><a href="https://www.mscto.com/jiekouceshi/">接口测试</a></li>
+	<li id="menu-item-228683" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-228683"><a href="https://www.mscto.com/qianrushiceshi/">嵌入式测试</a></li>
+</ul>
+</li>
+<li id="menu-item-263" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-263"><a href="https://www.mscto.com/op/">运维</a></li>
+<li id="menu-item-246" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-246"><a href="https://www.mscto.com/dev/">开发工具</a>
+<ul class="sub-menu">
+	<li id="menu-item-211" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-211"><a href="https://www.mscto.com/eclipse/">Eclipse</a></li>
+	<li id="menu-item-212" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-212"><a href="https://www.mscto.com/git/">Git</a></li>
+	<li id="menu-item-247" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-247"><a href="https://www.mscto.com/svn/">SVN</a></li>
+	<li id="menu-item-213" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-213"><a href="https://www.mscto.com/markdown/">Markdown</a></li>
+</ul>
+</li>
+<li id="menu-item-404550" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-404550"><a href="https://www.mscto.com/smartprogram/">小程序</a>
+<ul class="sub-menu">
+	<li id="menu-item-244" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-244"><a href="https://www.mscto.com/weixin/">微信小程序</a></li>
+	<li id="menu-item-245" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-245"><a href="https://www.mscto.com/baidu/">百度小程序</a></li>
+	<li id="menu-item-4372" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4372"><a href="https://www.mscto.com/alipay/">支付宝小程序</a></li>
+	<li id="menu-item-4370" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4370"><a href="https://www.mscto.com/qq/">QQ小程序</a></li>
+	<li id="menu-item-4371" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4371"><a href="https://www.mscto.com/kuaiapp/">快应用</a></li>
+</ul>
+</li>
+<li id="menu-item-243" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-243"><a href="https://www.mscto.com/toutiao/">今日头条小程序</a></li>
+<li id="menu-item-241" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-241"><a href="https://www.mscto.com/blockchain/">区块链开发</a></li>
+<li id="menu-item-236" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-236"><a href="https://www.mscto.com/ai/">人工智能</a></li>
+<li id="menu-item-235" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-235"><a href="https://www.mscto.com/cloud/">云计算</a></li>
+<li id="menu-item-258" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-258"><a href="https://www.mscto.com/iot/">物联网</a></li>
+<li id="menu-item-170" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-170"><a href="https://www.mscto.com/5g/">5G</a></li>
+<li id="menu-item-262" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-262"><a href="https://www.mscto.com/base/">计算机基础</a></li>
+<li id="menu-item-259" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-259"><a href="https://www.mscto.com/code/">疑难杂症</a></li>
+<li id="menu-item-224" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-224"><a href="https://www.mscto.com/web/">Web</a>
+<ul class="sub-menu">
+	<li id="menu-item-214" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-214"><a href="https://www.mscto.com/http/">HTTP</a></li>
+	<li id="menu-item-225" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-225"><a href="https://www.mscto.com/tcp/">TCP/IP</a></li>
+	<li id="menu-item-226" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-226"><a href="https://www.mscto.com/w3c/">W3C</a></li>
+</ul>
+</li>
+</ul></div></div>
+			<!-- END SELECTED WIDGETS -->	
+			
+			
+				
+		
+	</div>
+	
+	<!-- END SIDEBAR -->
+	
+	
+				
+			</div>
+			
+			<!-- END LEFT CONTENT WRAPPER -->
+			
+						
+			
+
+		
+	
+	<!-- BEGIN SIDEBAR -->
+		
+	<div id="sidebar-right" class="sidebar">
+			
+		
+		<!-- BEGIN BUDYYPRESS SITEWIDE NOTICES -->
+			
+				
+		<!-- END BUDYYPRESS SITEWIDE NOTICES -->
+		
+					
+			
+	
+			<!-- BEGIN SELECTED WIDGETS -->
+
+			<div id="custom_html-4" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><script type="text/javascript" src="//js.mscto.com/common/av_ub_b_kwb/static/w.js"></script></div></div><div id="search-2" class="widget widget_search">
+<form method="get" id="searchform" action="/index.php">
+
+	<input type="text" name="s" id="searchbar" value="" placeholder="Search" /><input type="submit" id="searchsubmit" value="Search" />
+	
+		
+
+</form></div><div id="tag_cloud-2" class="widget widget_tag_cloud"><h2 class="widgettitle">软件开发标签</h2><div class="tagcloud"><a href="https://www.mscto.com/tag/6660/" class="tag-cloud-link tag-link-6660 tag-link-position-1" style="font-size: 10.644444444444pt;" aria-label="ar (9,124个项目)">ar</a>
+<a href="https://www.mscto.com/tag/7023/" class="tag-cloud-link tag-link-7023 tag-link-position-2" style="font-size: 14.688888888889pt;" aria-label="AS (16,734个项目)">AS</a>
+<a href="https://www.mscto.com/tag/7389/" class="tag-cloud-link tag-link-7389 tag-link-position-3" style="font-size: 22pt;" aria-label="c (49,154个项目)">c</a>
+<a href="https://www.mscto.com/tag/9981/" class="tag-cloud-link tag-link-9981 tag-link-position-4" style="font-size: 9.0888888888889pt;" aria-label="hp (7,214个项目)">hp</a>
+<a href="https://www.mscto.com/tag/6711/" class="tag-cloud-link tag-link-6711 tag-link-position-5" style="font-size: 14.377777777778pt;" aria-label="id (15,851个项目)">id</a>
+<a href="https://www.mscto.com/tag/542/" class="tag-cloud-link tag-link-542 tag-link-position-6" style="font-size: 8.1555555555556pt;" aria-label="ie (6,340个项目)">ie</a>
+<a href="https://www.mscto.com/tag/6975/" class="tag-cloud-link tag-link-6975 tag-link-position-7" style="font-size: 16.711111111111pt;" aria-label="IN (22,591个项目)">IN</a>
+<a href="https://www.mscto.com/tag/7295/" class="tag-cloud-link tag-link-7295 tag-link-position-8" style="font-size: 13.755555555556pt;" aria-label="ip (14,454个项目)">ip</a>
+<a href="https://www.mscto.com/tag/7055/" class="tag-cloud-link tag-link-7055 tag-link-position-9" style="font-size: 8.1555555555556pt;" aria-label="IS (6,284个项目)">IS</a>
+<a href="https://www.mscto.com/tag/243/" class="tag-cloud-link tag-link-243 tag-link-position-10" style="font-size: 10.488888888889pt;" aria-label="javascript (8,837个项目)">javascript</a>
+<a href="https://www.mscto.com/tag/250/" class="tag-cloud-link tag-link-250 tag-link-position-11" style="font-size: 10.8pt;" aria-label="jquery (9,418个项目)">jquery</a>
+<a href="https://www.mscto.com/tag/480/" class="tag-cloud-link tag-link-480 tag-link-position-12" style="font-size: 14.533333333333pt;" aria-label="js (16,287个项目)">js</a>
+<a href="https://www.mscto.com/tag/481/" class="tag-cloud-link tag-link-481 tag-link-position-13" style="font-size: 9.2444444444444pt;" aria-label="js代码 (7,372个项目)">js代码</a>
+<a href="https://www.mscto.com/tag/12935/" class="tag-cloud-link tag-link-12935 tag-link-position-14" style="font-size: 9.4pt;" aria-label="le (7,546个项目)">le</a>
+<a href="https://www.mscto.com/tag/275/" class="tag-cloud-link tag-link-275 tag-link-position-15" style="font-size: 9.7111111111111pt;" aria-label="mysql (7,954个项目)">mysql</a>
+<a href="https://www.mscto.com/tag/2477/" class="tag-cloud-link tag-link-2477 tag-link-position-16" style="font-size: 11.111111111111pt;" aria-label="ng (9,873个项目)">ng</a>
+<a href="https://www.mscto.com/tag/6994/" class="tag-cloud-link tag-link-6994 tag-link-position-17" style="font-size: 12.2pt;" aria-label="OR (11,380个项目)">OR</a>
+<a href="https://www.mscto.com/tag/326/" class="tag-cloud-link tag-link-326 tag-link-position-18" style="font-size: 11.422222222222pt;" aria-label="php (10,274个项目)">php</a>
+<a href="https://www.mscto.com/tag/2728/" class="tag-cloud-link tag-link-2728 tag-link-position-19" style="font-size: 12.355555555556pt;" aria-label="pt (11,682个项目)">pt</a>
+<a href="https://www.mscto.com/tag/283/" class="tag-cloud-link tag-link-283 tag-link-position-20" style="font-size: 16.711111111111pt;" aria-label="python (22,179个项目)">python</a>
+<a href="https://www.mscto.com/tag/287/" class="tag-cloud-link tag-link-287 tag-link-position-21" style="font-size: 9.5555555555556pt;" aria-label="python函数 (7,780个项目)">python函数</a>
+<a href="https://www.mscto.com/tag/289/" class="tag-cloud-link tag-link-289 tag-link-position-22" style="font-size: 8.6222222222222pt;" aria-label="python实例 (6,761个项目)">python实例</a>
+<a href="https://www.mscto.com/tag/8066/" class="tag-cloud-link tag-link-8066 tag-link-position-23" style="font-size: 12.666666666667pt;" aria-label="rip (12,248个项目)">rip</a>
+<a href="https://www.mscto.com/tag/12138/" class="tag-cloud-link tag-link-12138 tag-link-position-24" style="font-size: 8.9333333333333pt;" aria-label="sc (7,006个项目)">sc</a>
+<a href="https://www.mscto.com/tag/7191/" class="tag-cloud-link tag-link-7191 tag-link-position-25" style="font-size: 8pt;" aria-label="script (6,102个项目)">script</a>
+<a href="https://www.mscto.com/tag/7081/" class="tag-cloud-link tag-link-7081 tag-link-position-26" style="font-size: 11.888888888889pt;" aria-label="SQL (10,898个项目)">SQL</a>
+<a href="https://www.mscto.com/tag/7368/" class="tag-cloud-link tag-link-7368 tag-link-position-27" style="font-size: 8pt;" aria-label="ss (6,208个项目)">ss</a>
+<a href="https://www.mscto.com/tag/2488/" class="tag-cloud-link tag-link-2488 tag-link-position-28" style="font-size: 10.022222222222pt;" aria-label="st (8,371个项目)">st</a>
+<a href="https://www.mscto.com/tag/149/" class="tag-cloud-link tag-link-149 tag-link-position-29" style="font-size: 9.2444444444444pt;" aria-label="string (7,367个项目)">string</a>
+<a href="https://www.mscto.com/tag/2332/" class="tag-cloud-link tag-link-2332 tag-link-position-30" style="font-size: 14.222222222222pt;" aria-label="ue (15,427个项目)">ue</a>
+<a href="https://www.mscto.com/tag/549/" class="tag-cloud-link tag-link-549 tag-link-position-31" style="font-size: 8.3111111111111pt;" aria-label="var (6,480个项目)">var</a>
+<a href="https://www.mscto.com/tag/482/" class="tag-cloud-link tag-link-482 tag-link-position-32" style="font-size: 8.3111111111111pt;" aria-label="vue (6,394个项目)">vue</a>
+<a href="https://www.mscto.com/tag/6649/" class="tag-cloud-link tag-link-6649 tag-link-position-33" style="font-size: 12.2pt;" aria-label="w (11,353个项目)">w</a>
+<a href="https://www.mscto.com/tag/5361/" class="tag-cloud-link tag-link-5361 tag-link-position-34" style="font-size: 9.4pt;" aria-label="函数 (7,649个项目)">函数</a>
+<a href="https://www.mscto.com/tag/5594/" class="tag-cloud-link tag-link-5594 tag-link-position-35" style="font-size: 8.4666666666667pt;" aria-label="学习 (6,626个项目)">学习</a>
+<a href="https://www.mscto.com/tag/5605/" class="tag-cloud-link tag-link-5605 tag-link-position-36" style="font-size: 8.9333333333333pt;" aria-label="安装 (7,045个项目)">安装</a>
+<a href="https://www.mscto.com/tag/5780/" class="tag-cloud-link tag-link-5780 tag-link-position-37" style="font-size: 8.3111111111111pt;" aria-label="操作 (6,518个项目)">操作</a>
+<a href="https://www.mscto.com/tag/215/" class="tag-cloud-link tag-link-215 tag-link-position-38" style="font-size: 8.7777777777778pt;" aria-label="教程 (6,995个项目)">教程</a>
+<a href="https://www.mscto.com/tag/5788/" class="tag-cloud-link tag-link-5788 tag-link-position-39" style="font-size: 13.288888888889pt;" aria-label="数据 (13,356个项目)">数据</a>
+<a href="https://www.mscto.com/tag/277/" class="tag-cloud-link tag-link-277 tag-link-position-40" style="font-size: 9.0888888888889pt;" aria-label="数据库 (7,327个项目)">数据库</a>
+<a href="https://www.mscto.com/tag/5814/" class="tag-cloud-link tag-link-5814 tag-link-position-41" style="font-size: 20.288888888889pt;" aria-label="方法 (38,200个项目)">方法</a>
+<a href="https://www.mscto.com/tag/5984/" class="tag-cloud-link tag-link-5984 tag-link-position-42" style="font-size: 10.333333333333pt;" aria-label="测试 (8,650个项目)">测试</a>
+<a href="https://www.mscto.com/tag/6097/" class="tag-cloud-link tag-link-6097 tag-link-position-43" style="font-size: 11.577777777778pt;" aria-label="示例 (10,482个项目)">示例</a>
+<a href="https://www.mscto.com/tag/284/" class="tag-cloud-link tag-link-284 tag-link-position-44" style="font-size: 8.9333333333333pt;" aria-label="编程语言 (7,011个项目)">编程语言</a>
+<a href="https://www.mscto.com/tag/210/" class="tag-cloud-link tag-link-210 tag-link-position-45" style="font-size: 9.7111111111111pt;" aria-label="软件 (7,910个项目)">软件</a></div>
+</div><div id="linkcat-11" class="widget widget_links"><h2 class="widgettitle">合作伙伴</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="https://www.mscto.com/" target="_blank">软件开发网</a></li>
+<li><a href="https://www.lianshijie.com/" target="_blank">区块链</a></li>
+<li><a href="http://www.jscode.cn/" target="_blank">JsCode</a></li>
+<li><a href="https://developer.51cto.com/" target="_blank">51CTO</a></li>
+<li><a href="http://www.comprg.com.cn/" target="_blank">电脑编程技巧</a></li>
+<li><a href="https://www.kaixin100.com/" target="_blank">笑话大全</a></li>
+<li><a href="https://www.msj.com/" target="_blank">美食街</a></li>
+<li><a href="https://www.qqx.com/" target="_blank">全球行</a></li>
+<li><a href="https://www.wys.net/" target="_blank">微养生</a></li>
+<li><a href="https://www.xingzuo8090.com/" target="_blank">星座查询</a></li>
+<li><a href="https://www.163lady.com/" target="_blank">163女性网</a></li>
+<li><a href="https://www.lianyi.com/" target="_blank">链一财经</a></li>
+<li><a href="https://www.gkzyb.com" target="_blank">高考志愿帮</a></li>
+<li><a href="http://www.bi168.cn/" target="_blank">168大数据</a></li>
+<li><a href="https://www.kandao.com" target="_blank">看道</a></li>
+<li><a href="https://www.shangdaotong.com" target="_blank">商道通</a></li>
+
+	</ul>
+</div>
+<div id="custom_html-5" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><script type="text/javascript" src="//js.mscto.com/site/to/common/nu/openjs/u/production/d/pxu.js"></script>
+<!--script type="text/javascript" src="//js.mscto.com/site/h/production/cb_ii/r_dzk.js"></script--></div></div>
+			<!-- END SELECTED WIDGETS -->						
+
+				
+		
+	</div>
+	
+	<!-- END SIDEBAR -->
+	
+	
+	
+	
+			<div class="clear"></div>
+		
+		
+		</div>
+	
+		<!-- END CONTENT WRAPPER -->
+
+	</div>
+
+	<!-- END PAGE WRAPPER -->
+	
+
+	<!-- BEGIN FOOTER -->
+
+	
+		<div id="footer">
+	
+			<div id="footer-widgets">
+			
+						
+									<div class="footer-widget footer-1 footer-whole">
+						<div id="custom_html-3" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget"><footer id="footer">
+	
+			<div id="footer-widgets">
+			
+						
+									<div class="footer-widget footer-1 footer-fourth">
+						<div id="text-1" class="widget widget_text">			<div class="textwidget">
+	
+		<div class="sc-image aligncenter      " style="  width: 182px; height: 124px;">
+		
+			<a href="/" title="" data-rel="" target="_self" rel="noopener noreferrer">
+		
+				<img src="https://www.mscto.com/wp-content/uploads/2020/01/msctofoot-1.png" data-rel="" alt="" width="182" height="124" /> 
+			
+			 </a>
+		
+		</div>
+	
+		</div>
+		</div>					</div>
+				
+				<div class="footer-widget footer-4 footer-third">
+						<div id="text-2" class="widget widget_text"><h3 class="widgettitle">关于我们</h3>			<div class="textwidget"><p>软件开发网是IT技术者们必备查询交流平台，提供编程的基础软件技术培训教程,软件开发编程实例讲解Go,CSS,Javascript,Python,Ruby,MySQL等各种软件开发编程语言及时下热门领域区块链,5G,大数据,云计算,人工智能等开发资料查询讨论，极客的乐园，小白进阶的必经之路！</p>
+</div>
+		</div>					</div>
+						
+									<div class="footer-widget footer-2 footer-fourth">
+								<div id="recent-posts-3" class="widget widget_recent_entries">		<h3 class="widgettitle">软件开发社区</h3>		<ul>
+											<li>
+					<a target="_blank" href="https://www.csdn.net/" rel="nofollow noopener noreferrer">CSDN</a>
+									</li>
+											<li>
+					<a target="_blank" href="https://segmentfault.com/" rel="nofollow noopener noreferrer">SegmentFault</a>
+									</li>
+											<li>
+					<a target="_blank" href="https://stackoverflow.com/" rel="nofollow noopener noreferrer">StackoverFlow</a>
+									</li>
+											<li>
+					<a target="_blank" href="https://www.w3school.com.cn/" rel="nofollow noopener noreferrer">W3School</a>
+									</li>
+											<li>
+					<a target="_blank" href="https://github.com/" rel="nofollow noopener noreferrer">GitHub</a>
+									</li>
+									<li>
+					<a target="_blank" href="https://sourceforge.net/" rel="nofollow noopener noreferrer">SourceForge</a>
+									</li>
+					</ul>
+		</div>					</div>
+							
+									
+							
+									
+				
+									
+			</div>
+		
+		</footer>
+</div></div>					</div>
+						
+							
+							
+				
+									
+			</div>
+		
+		</div>
+
+	
+	<!-- END FOOTER -->
+
+
+	<!-- BEGIN COPYRIGHT -->
+	
+	<div id="copyright">&copy; 2020 软件开发网 All rights reserved.<script src="https://www.mscto.com/icp.js"></script></div>
+	<script src="/js/tongji.js"></script>
+	<!-- END COPYRIGHT -->
+
+
+
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var viewsCacheL10n = {"admin_ajax_url":"https:\/\/www.mscto.com\/wp-admin\/admin-ajax.php","post_id":"54069"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.mscto.com/wp-content/plugins/wp-postviews/postviews-cache.js?ver=1.68'></script>
+<script type='text/javascript' src='https://ajax.proxy.ustclug.org/ajax/libs/swfobject/2.2/swfobject.js?ver=5.4.2'></script>
+<script type='text/javascript' src='https://www.mscto.com/wp-content/themes/buddy/lib/scripts/jquery.ui.totop.min.js?ver=5.4.2'></script>
+<script type='text/javascript' src='https://www.mscto.com/wp-content/themes/buddy/lib/scripts/prettyPhoto/js/jquery.prettyPhoto.js?ver=5.4.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var gp_script = {"rootFolder":"https:\/\/www.mscto.com\/wp-content\/themes\/buddy","emptySearchText":"\u8bf7\u5148\u8f93\u5165\u8981\u67e5\u8be2\u5185\u5bb9\u54e6\uff01"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.mscto.com/wp-content/themes/buddy/lib/scripts/custom.js?ver=5.4.2'></script>
+<script type='text/javascript' src='https://www.mscto.com/wp-includes/js/wp-embed.min.js?ver=5.4.2'></script>
+
+</body>
+</html>
+<!-- This is the static html file created at 2020-07-20 04:40:53 by super static cache -->
